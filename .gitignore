@@ -1,5 +1,2 @@
-/Design
-/code/node_modules
-/code/dist
-code/src/static/models
-code/src/js/vendor
+/dist
+node_modules
