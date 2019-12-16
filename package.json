@@ -1,5 +1,5 @@
 {
-  "name": "playstation-portfolio-site",
+  "name": "threejs-es6-webpack-boilerplate",
   "version": "1.0.0",
   "private": true,
   "description": "N/A",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ethanny2/PersonalSite.git"
+    "url": "git+https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate"
   },
   "keywords": [
     "Threejs"
@@ -23,7 +23,7 @@
   "author": "Ethan Soo Hon",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ethanny2/PersonalSite/issues"
+    "url": "https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate/issues"
   },
   "homepage": "https://github.com/ethanny2/PersonalSite#readme",
   "devDependencies": {
@@ -31,13 +31,15 @@
     "@babel/preset-env": "^7.7.6",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
-    "css-loader": "^3.3.0",
     "del": "^5.1.0",
     "file-loader": "^5.0.2",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-csso": "^4.0.1",
+    "gulp-debug": "^4.0.0",
     "gulp-eslint": "^6.0.0",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^6.2.0",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.0.2",
     "html-webpack-plugin": "^3.2.0",
