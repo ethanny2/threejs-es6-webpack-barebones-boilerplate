@@ -21,7 +21,6 @@ let scene;
 let mesh;
 
 function init() {
-//   alert('Wow this dev system is amazing');
   // Get a reference to the container element that will hold our scene
   container = document.querySelector( '#three-container' );
 

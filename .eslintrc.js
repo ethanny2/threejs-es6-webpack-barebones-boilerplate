@@ -3,6 +3,6 @@ module.exports = {
         "browser": true,
         "es6": true
     },
-    "extends": ["eslint:recommended", "airbnb"]
+"extends": ["eslint:recommended", "google"]
 };
 
