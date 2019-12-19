@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 /* For convenience; denotes often used environment info */
 const entry = path.resolve(__dirname, './src/js/index.js');
 const nodePath = path.resolve(__dirname, './node_modules');
-const devMode = true;
+
 
 module.exports = {
   stats: {
@@ -17,8 +17,6 @@ module.exports = {
     app: entry
   },
   plugins: [
-    // //cleans /dist directory
-    // new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Threejs ES6 Simple Boilerplate',
       filename: 'index.html',
