@@ -1,25 +1,23 @@
 
 import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
-import Promise from 'promise-polyfill';
+import 'promise-polyfill/src/polyfill';
 import FireSfx from '../static/audio/fire_compressed.mp3';
 import Image from '../static/images/es6.png';
 import '../sass/style.scss';
 console.log(FireSfx);
 console.log(Image);
 
-//Test for WebGl compatiablity within browser
+// Test for WebGl compatiablity within browser
 
 
-
-
-// these need to be accessed inside more than one function so we'll declare them first
+// these need to be accessed inside more than one function so we'll declare them
 let container;
 let camera;
 let renderer;
 let scene;
 let mesh;
-
+// const rotateTween = new TWEEN.Tween({x: 0, y: 0});
 function init() {
   // Get a reference to the container element that will hold our scene
   container = document.querySelector( '#three-container' );
@@ -43,7 +41,7 @@ function init() {
   const geometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
 
   // create a purple Standard material
-  const material = new THREE.MeshStandardMaterial( { color: 0x800080 } );
+  const material = new THREE.MeshStandardMaterial( {color: 0x800080} );
 
   // create a Mesh containing the geometry and material
   mesh = new THREE.Mesh( geometry, material );
@@ -61,7 +59,7 @@ function init() {
   scene.add( light );
 
   // create a WebGLRenderer and set its width and height
-  renderer = new THREE.WebGLRenderer( { antialias: true } );
+  renderer = new THREE.WebGLRenderer( {antialias: true} );
   renderer.setSize( container.clientWidth, container.clientHeight );
 
   renderer.setPixelRatio( window.devicePixelRatio );
@@ -71,36 +69,28 @@ function init() {
 
   // start the animation loop
   renderer.setAnimationLoop( () => {
-
     update();
     render();
-
   } );
-
 }
 
 // perform any updates to the scene, called once per frame
 // avoid heavy computation here
 function update() {
-
   // increase the mesh's rotation each frame
   mesh.rotation.z += 0.01;
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.01;
-
 }
 
 // render, or 'draw a still image', of the scene
 function render() {
-
   renderer.render( scene, camera );
-
 }
 
 // a function that will be called every time the window gets resized.
 // It can get called a lot, so don't put any heavy computation in here!
 function onWindowResize() {
-
   // set the aspect ratio to match the new browser window aspect ratio
   camera.aspect = container.clientWidth / container.clientHeight;
 
@@ -109,7 +99,6 @@ function onWindowResize() {
 
   // update the size of the renderer AND the canvas
   renderer.setSize( container.clientWidth, container.clientHeight );
-
 }
 
 window.addEventListener( 'resize', onWindowResize );
