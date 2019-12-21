@@ -19,7 +19,7 @@ module.exports = {
   plugins: [
     new webpack.DllPlugin({
       name: '[name]',
-      path: './[name].json',
+      path: 'dist/[name].json',
     }),
   ],
 };
