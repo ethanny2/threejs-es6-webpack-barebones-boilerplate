@@ -79,6 +79,17 @@ module.exports = {
           }
         }
       },
+      // Loads all 3D model files; add more based on your needs
+      {
+        test: /\.(obj|gltf|drc|mtl|glb)$/i,
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: 'models/',
+            name: '[name].[contenthash].[ext]'
+          }
+        }
+      },
       // Loads all CSS, SASS AND SCSS files
       {
         test: /\.(sa|sc|c)ss$/i,
@@ -87,7 +98,7 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               // Path to assets AFTER build process
-               publicPath: '../',
+              publicPath: '../',
               hmr: true
             }
           },
@@ -116,7 +127,7 @@ module.exports = {
     // Vendor code hash (code that is not often changed) keeps its
     // hash string across builds UNLESS the vendor code has changed.
     // https://webpack.js.org/guides/caching/
-    moduleIds: 'hashed',
+    moduleIds: 'hashed'
     // splitChunks: {
     //   cacheGroups: {
     //     // Extracts all .css files into a single css file

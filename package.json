@@ -10,9 +10,8 @@
     "lint-fix": "eslint --fix .",
     "build": " npm run clean && webpack --config webpack.prod.js",
     "build-dll": "webpack --config webpack.vendor.config.js",
-    "start-dev": "webpack-dev-server --open --config webpack.dev.js", 
-    "compress": "gltf-pipeline -i ./src/static/models/**/*.gltf dracoScene.gltf -d",
-    "compress-all": "for path in ./src/static/models/*; do [ -d \"${path}\" ] || continue dirname=\"$(basename \"${path}\")\" done"
+    "start-dev": "webpack-dev-server --open --config webpack.dev.js",
+    "compress" :"node compressGltf.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +44,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^8.0.0",
+    "stats.js": "^0.17.0",
     "terser-webpack-plugin": "^2.3.1",
     "webpack": "^4.41.3",
     "webpack-cli": "^3.3.10",
