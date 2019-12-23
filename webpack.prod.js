@@ -60,7 +60,7 @@ module.exports = merge(common, {
           reuseExistingChunk: true,
           name(module) {
             const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+                /[\\/]node_modules[\\/](.*?)([\\/]|$)/
             )[1];
             return `vendor/npm.${packageName.replace('@', '')}`;
           }

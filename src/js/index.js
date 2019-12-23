@@ -1,7 +1,7 @@
-
 import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
 import 'promise-polyfill/src/polyfill';
+import * as WEBGL from 'three/examples/jsm/WebGL.js';
 import FireSfx from '../static/audio/fire_compressed.mp3';
 import Image from '../static/images/es6.png';
 import '../sass/style.scss';
@@ -9,7 +9,6 @@ console.log(FireSfx);
 console.log(Image);
 
 // Test for WebGl compatiablity within browser
-
 
 // these need to be accessed inside more than one function so we'll declare them
 let container;
@@ -20,58 +19,58 @@ let mesh;
 // const rotateTween = new TWEEN.Tween({x: 0, y: 0});
 function init() {
   // Get a reference to the container element that will hold our scene
-  container = document.querySelector( '#three-container' );
+  container = document.querySelector('#three-container');
 
   // create a Scene
   scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0x8FBCD4 );
+  scene.background = new THREE.Color(0x8fbcd4);
   // set up the options for a perspective camera
   const fov = 35; // fov = Field Of View
   const aspect = container.clientWidth / container.clientHeight;
   const near = 0.1;
   const far = 100;
 
-  camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+  camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
   // every object is initially created at ( 0, 0, 0 )
   // we'll move the camera back a bit so that we can view the scene
-  camera.position.set( 0, 0, 10 );
+  camera.position.set(0, 0, 10);
 
   // create a geometry
-  const geometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
+  const geometry = new THREE.BoxBufferGeometry(2, 2, 2);
 
   // create a purple Standard material
-  const material = new THREE.MeshStandardMaterial( {color: 0x800080} );
+  const material = new THREE.MeshStandardMaterial({ color: 0x800080 });
 
   // create a Mesh containing the geometry and material
-  mesh = new THREE.Mesh( geometry, material );
+  mesh = new THREE.Mesh(geometry, material);
 
   // add the mesh to the scene object
-  scene.add( mesh );
+  scene.add(mesh);
 
   // Create a directional light
-  const light = new THREE.DirectionalLight( 0xffffff, 5.0 );
+  const light = new THREE.DirectionalLight(0xffffff, 5.0);
 
   // move the light back and up a bit
-  light.position.set( 10, 10, 10 );
+  light.position.set(10, 10, 10);
 
   // remember to add the light to the scene
-  scene.add( light );
+  scene.add(light);
 
   // create a WebGLRenderer and set its width and height
-  renderer = new THREE.WebGLRenderer( {antialias: true} );
-  renderer.setSize( container.clientWidth, container.clientHeight );
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
 
-  renderer.setPixelRatio( window.devicePixelRatio );
+  renderer.setPixelRatio(window.devicePixelRatio);
 
   // add the automatically created <canvas> element to the page
-  container.appendChild( renderer.domElement );
+  container.appendChild(renderer.domElement);
 
   // start the animation loop
-  renderer.setAnimationLoop( () => {
+  renderer.setAnimationLoop(() => {
     update();
     render();
-  } );
+  });
 }
 
 // perform any updates to the scene, called once per frame
@@ -85,7 +84,7 @@ function update() {
 
 // render, or 'draw a still image', of the scene
 function render() {
-  renderer.render( scene, camera );
+  renderer.render(scene, camera);
 }
 
 // a function that will be called every time the window gets resized.
@@ -98,10 +97,15 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
 
   // update the size of the renderer AND the canvas
-  renderer.setSize( container.clientWidth, container.clientHeight );
+  renderer.setSize(container.clientWidth, container.clientHeight);
 }
 
-window.addEventListener( 'resize', onWindowResize );
-
-// call the init function to set everything up
-init();
+/* https://threejs.org/docs/#manual/en/introduction/WebGL-compatibility-check */
+if (WEBGL.isWebGLAvailable()) {
+  // Initiate function or other initializations here
+  window.addEventListener('resize', onWindowResize);
+  init();
+} else {
+  const warning = WEBGL.getWebGLErrorMessage();
+  document.getElementById('container').appendChild(warning);
+}

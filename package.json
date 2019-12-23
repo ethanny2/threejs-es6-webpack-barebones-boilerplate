@@ -6,11 +6,13 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -r -f dist/*",
-    "lint":"eslint .",
-    "lint-fix" :"eslint --fix .",
+    "lint": "eslint .",
+    "lint-fix": "eslint --fix .",
     "build": " npm run clean && webpack --config webpack.prod.js",
     "build-dll": "webpack --config webpack.vendor.config.js",
-    "start-dev": "webpack-dev-server --open --config webpack.dev.js"
+    "start-dev": "webpack-dev-server --open --config webpack.dev.js", 
+    "compress": "gltf-pipeline -i ./src/static/models/**/*.gltf dracoScene.gltf -d",
+    "compress-all": "for path in ./src/static/models/*; do [ -d \"${path}\" ] || continue dirname=\"$(basename \"${path}\")\" done"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-loader": "^3.0.3",
     "file-loader": "^5.0.2",
+    "gltf-pipeline": "^2.1.4",
     "html-webpack-plugin": "^3.2.0",
     "image-webpack-loader": "^6.0.0",
     "mini-css-extract-plugin": "^0.8.2",

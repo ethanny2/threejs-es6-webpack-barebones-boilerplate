@@ -33,31 +33,31 @@ module.exports = merge(common, {
     hot: true,
     port: 9000
   },
-  plugins: [
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./library.json')
-    })
-  ],
+  // plugins: [
+  //   new webpack.DllReferencePlugin({
+  //     context: __dirname,
+  //     manifest: require('./library.json')
+  //   })
+  // ],
   optimization: {
     splitChunks: {
       cacheGroups: {
         /* https://webpack.js.org/plugins/split-chunks-plugin/#split-chunks-example-3
             Creates a custom vendor chunk, which contains certain node_modules 
             packages matched by RegExp. */
-        // vendor: {
-        //   test: /[\\/]node_modules[\\/](three|shader-particle-engine|@tweenjs|promise-polyfill)[\\/]/,
-        //   name: 'vendor',
-        //   chunks: 'all',
-        //   reuseExistingChunk: true
-        // }
-        // // Extracts all .css files into a single css file
-        // styles: {
-        //   name: 'styles',
-        //   test: /\.css$/,
-        //   chunks: 'all',
-        //   enforce: true
-        // }
+        vendor: {
+          test: /[\\/]node_modules[\\/](three|shader-particle-engine|@tweenjs|promise-polyfill)[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+          reuseExistingChunk: true
+        },
+        // Extracts all .css files into a single css file
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        }
       }
     }
   }
