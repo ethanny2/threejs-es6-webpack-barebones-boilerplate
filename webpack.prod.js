@@ -1,17 +1,17 @@
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
-const TerserJSPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const path = require('path');
+const merge = require("webpack-merge");
+const common = require("./webpack.common.js");
+const TerserJSPlugin = require("terser-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const path = require("path");
 
 module.exports = merge(common, {
-  mode: 'production',
-  devtool: 'cheap-module-eval-source-map',
+  mode: "production",
+  devtool: "cheap-module-eval-source-map",
   // Add in extra loader to minify image assets
   output: {
     // Content hash used for cache bursting
-    filename: 'js/[name].[contenthash].bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: "js/[name].[contenthash].bundle.js",
+    path: path.resolve(__dirname, "dist")
   },
   module: {
     rules: [
@@ -19,14 +19,14 @@ module.exports = merge(common, {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              outputPath: 'images/',
-              name: '[name].[contenthash].[ext]'
+              outputPath: "images/",
+              name: "[name].[contenthash].[ext]"
             }
           },
           {
-            loader: 'image-webpack-loader',
+            loader: "image-webpack-loader",
             options: {
               bypassOnDebug: true, // webpack@1.x
               disable: true // webpack@2.x and newer
@@ -49,7 +49,7 @@ module.exports = merge(common, {
       new OptimizeCSSAssetsPlugin({})
     ],
     splitChunks: {
-      chunks: 'all',
+      chunks: "all",
       maxInitialRequests: Infinity,
       minSize: 0,
       cacheGroups: {
@@ -60,9 +60,9 @@ module.exports = merge(common, {
           reuseExistingChunk: true,
           name(module) {
             const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
             )[1];
-            return `vendor/npm.${packageName.replace('@', '')}`;
+            return `vendor/npm.${packageName.replace("@", "")}`;
           }
         }
         // vendor: {

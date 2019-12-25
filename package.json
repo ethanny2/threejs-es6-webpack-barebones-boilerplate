@@ -4,6 +4,7 @@
   "private": true,
   "description": "N/A",
   "main": "index.js",
+ 
   "scripts": {
     "clean": "rm -r -f dist/*",
     "lint": "eslint .",
@@ -11,7 +12,7 @@
     "build": " npm run clean && webpack --config webpack.prod.js",
     "build-dll": "webpack --config webpack.vendor.config.js",
     "start-dev": "webpack-dev-server --open --config webpack.dev.js",
-    "compress" :"node compressGltf.js"
+    "compress": "node compressGltf.js"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,10 @@
     "css-loader": "^3.4.0",
     "eslint": "^6.7.2",
     "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.7.0",
     "eslint-loader": "^3.0.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "esm": "^3.2.25",
     "file-loader": "^5.0.2",
     "gltf-pipeline": "^2.1.4",
     "html-webpack-plugin": "^3.2.0",
@@ -43,6 +47,7 @@
     "node-sass": "^4.13.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
+    "prettier": "^1.19.1",
     "sass-loader": "^8.0.0",
     "stats.js": "^0.17.0",
     "terser-webpack-plugin": "^2.3.1",
