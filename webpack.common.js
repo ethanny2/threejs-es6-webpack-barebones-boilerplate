@@ -1,12 +1,14 @@
 /* eslint-disable */
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 /* For convenience; denotes often used environment info */
-const entry = path.resolve(__dirname, './src/js/index.js');
-const nodePath = path.resolve(__dirname, './node_modules');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-
+const entry = path.resolve(__dirname, "./src/js/index.js");
+// const vendorEntry = path.resolve(__dirname, "./src/js/vendor.js");
+const nodePath = path.resolve(__dirname, "./node_modules");
 
 module.exports = {
   stats: {
@@ -15,28 +17,49 @@ module.exports = {
     env: true
   },
   entry: {
-    app: entry
+    main: entry,
+    //https://webpack.js.org/concepts/entry-points/
+    //Bad practice to do this in webpack versions >4.0
+    // vendor: vendorEntry
   },
   output: {
     // Content hash used for cache bursting
-    filename: 'js/[name].[hash].bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: "js/[name].[hash].bundle.js",
+    path: path.resolve(__dirname, "dist")
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Threejs ES6 Simple Boilerplate',
-      filename: 'index.html',
-      template: './src/static/html/index.html',
-      hash: true
+      title: "Threejs ES6 Simple Boilerplate",
+      filename: "index.html",
+      template: "./src/static/html/index.html",
+      favicon:"./src/static/images/favicons/favicon.ico",
+      hash: true,
+      inject: 'head'
+    }),
+    //Adds rel="preload" to fonts; best practice needs citation
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      as(entry) {
+        if (/\.(woff|woff2|ttf|otf)$/.test(entry)) return 'font';
+      },
+      fileWhitelist: [/\.(woff|woff2|ttf|otf)$/],
+      //Includes all assets; needs more clarification
+      include: 'allAssets'
+    }),
+    //Adds defer to js scripts to speed load times.
+    //https://flaviocopes.com/javascript-async-defer/
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'defer'
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/style.css',
-      chunkFilename: 'css/style.[id].css'
-    }),
-    new FaviconsWebpackPlugin({
-      logo: './src/static/images/cube-favicon.png',
-      mode: 'light'
+      filename: "css/style.css",
+      chunkFilename: "css/style.[id].css"
     })
+    //For copying static files not built by webpack
+    //Currently only used to copy favicons
+    // new CopyPlugin([
+    //   { from: './src/static/images/favicons/*/**', to: 'images/favicons/' },
+    // ])
   ],
   module: {
     rules: [
@@ -47,16 +70,16 @@ module.exports = {
         use: [
           // Transplies from ES6 to ES5.
           {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
               cacheDirectory: true,
-              presets: ['@babel/preset-env'],
+              presets: ["@babel/preset-env"],
               cacheCompression: true
             }
           },
           // Lint javascript before transpiling
           {
-            loader: 'eslint-loader',
+            loader: "eslint-loader",
             options: {
               cache: true
             }
@@ -67,10 +90,10 @@ module.exports = {
       {
         test: /\.(ogg|wma|mp3|wav|mpe?g)$/i,
         use: {
-          loader: 'file-loader',
+          loader: "file-loader",
           options: {
-            outputPath: 'audio/',
-            name: '[name].[contenthash].[ext]'
+            outputPath: "audio/",
+            name: "[name].[contenthash].[ext]"
           }
         }
       },
@@ -78,10 +101,10 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         use: {
-          loader: 'file-loader',
+          loader: "file-loader",
           options: {
-            outputPath: 'fonts/',
-            name: '[name].[contenthash].[ext]'
+            outputPath: "fonts/",
+            name: "[name].[contenthash].[ext]"
           }
         }
       },
@@ -89,10 +112,10 @@ module.exports = {
       {
         test: /\.(obj|gltf|drc|mtl|glb)$/i,
         use: {
-          loader: 'file-loader',
+          loader: "file-loader",
           options: {
-            outputPath: 'models/',
-            name: '[name].[contenthash].[ext]'
+            outputPath: "models/",
+            name: "[name].[contenthash].[ext]"
           }
         }
       },
@@ -103,23 +126,23 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              // Path to assets AFTER build process
-              publicPath: '../',
+              // Path all assets AFTER build process
+              publicPath: "../",
               hmr: true
             }
           },
           // Translates CSS into CommonJS
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               sourceMap: true
             }
           },
           // Adds vendor prefixes with Autoprefixer
-          'postcss-loader',
+          "postcss-loader",
           {
             // Compiles SASS to CSS
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
               sourceMap: true
             }
@@ -129,11 +152,11 @@ module.exports = {
     ]
   },
   optimization: {
-    runtimeChunk: 'single',
+    runtimeChunk: "single",
     // Vendor code hash (code that is not often changed) keeps its
     // hash string across builds UNLESS the vendor code has changed.
     // https://webpack.js.org/guides/caching/
-    moduleIds: 'hashed'
+    moduleIds: "hashed"
     // splitChunks: {
     //   cacheGroups: {
     //     // Extracts all .css files into a single css file

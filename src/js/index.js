@@ -4,11 +4,12 @@ import "promise-polyfill/src/polyfill";
 import { WEBGL } from "three/examples/jsm/WebGL.js";
 import * as Stats from "stats.js";
 import * as OfflinePluginRuntime from "offline-plugin/runtime";
+//Importing static assets for use
 import FireSfx from "../static/audio/fire_compressed.mp3";
 import Image from "../static/images/es6.png";
 import "../sass/style.scss";
 
-//Starts service worker to cahce offline
+//Start Service worker to cache for offline
 OfflinePluginRuntime.install();
 
 /*Threejs Vars */

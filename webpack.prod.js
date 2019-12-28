@@ -2,7 +2,7 @@ const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
 const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const OfflinePlugin = require("offline-plugin");
+var OfflinePlugin = require("offline-plugin");
 const path = require("path");
 module.exports = merge(common, {
   mode: "production",
@@ -36,6 +36,7 @@ module.exports = merge(common, {
       }
     ]
   },
+  plugins: [new OfflinePlugin()],
   optimization: {
     minimizer: [
       // Minify JS; by default applies to all .js files;
@@ -46,9 +47,8 @@ module.exports = merge(common, {
         sourceMap: true
       }),
       // Minify CSS; default applies to all .css files
-      new OptimizeCSSAssetsPlugin({}),
-      //Creates service worker for Webpack generated assets 
-      new OfflinePlugin()
+      new OptimizeCSSAssetsPlugin({})
+      //Creates service worker for Webpack generated assets
     ],
     splitChunks: {
       chunks: "all",

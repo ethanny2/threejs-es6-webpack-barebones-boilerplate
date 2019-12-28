@@ -16,7 +16,7 @@ module.exports = merge(common, {
     rules: [
       // Loads all image files; no minfication
       {
-        test: /\.(png|svg|jpe?g|gif)$/i,
+        test: /\.(png|svg|jpe?g|gif|ico)$/i,
         use: {
           loader: 'file-loader',
           options: {
