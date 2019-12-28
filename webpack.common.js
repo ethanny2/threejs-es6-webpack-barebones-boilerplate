@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 /* For convenience; denotes often used environment info */
 const entry = path.resolve(__dirname, './src/js/index.js');
 const nodePath = path.resolve(__dirname, './node_modules');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+
 
 module.exports = {
   stats: {
@@ -30,6 +32,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/style.css',
       chunkFilename: 'css/style.[id].css'
+    }),
+    new FaviconsWebpackPlugin({
+      logo: './src/static/images/cube-favicon.png',
+      mode: 'light'
     })
   ],
   module: {

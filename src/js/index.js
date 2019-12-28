@@ -2,10 +2,14 @@ import * as THREE from "three";
 import TWEEN from "@tweenjs/tween.js";
 import "promise-polyfill/src/polyfill";
 import { WEBGL } from "three/examples/jsm/WebGL.js";
+import * as Stats from "stats.js";
+import * as OfflinePluginRuntime from "offline-plugin/runtime";
 import FireSfx from "../static/audio/fire_compressed.mp3";
 import Image from "../static/images/es6.png";
 import "../sass/style.scss";
-import * as Stats from "stats.js";
+
+//Starts service worker to cahce offline
+OfflinePluginRuntime.install();
 
 /*Threejs Vars */
 // these need to be accessed inside more than one function so we'll declare them
@@ -21,7 +25,7 @@ let stats;
 const duration = 8000;
 let cubeRotateTweenA;
 //Used in cubeRotateTweenA to perform a full rotation from 0.
-const endRotationVector = new THREE.Vector3(360, 360, 360);
+const rotateCoords = new THREE.Vector3(Math.PI, Math.PI, Math.PI);
 const clock = new THREE.Clock();
 
 function init() {
@@ -69,7 +73,6 @@ function init() {
   scene.add(light);
 
   //Initialize the rotation tween from 0deg to 360deg
-  const rotateCoords = new THREE.Vector3(Math.PI, Math.PI, Math.PI);
   cubeRotateTweenA = new TWEEN.Tween(mesh.rotation)
     .to(rotateCoords, duration)
     .easing(TWEEN.Easing.Linear.None)

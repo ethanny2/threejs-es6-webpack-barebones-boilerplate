@@ -46,7 +46,7 @@ module.exports = merge(common, {
             Creates a custom vendor chunk, which contains certain node_modules 
             packages matched by RegExp. */
         vendor: {
-          test: /[\\/]node_modules[\\/](three|shader-particle-engine|@tweenjs|promise-polyfill)[\\/]/,
+          test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
           chunks: 'all',
           reuseExistingChunk: true
