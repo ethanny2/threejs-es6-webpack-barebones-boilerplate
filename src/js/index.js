@@ -1,13 +1,17 @@
 import * as THREE from "three";
+//global.THREE = require("three");
+
 import TWEEN from "@tweenjs/tween.js";
 import "promise-polyfill/src/polyfill";
 import { WEBGL } from "three/examples/jsm/WebGL.js";
 import * as Stats from "stats.js";
 import * as OfflinePluginRuntime from "offline-plugin/runtime";
+import SPE from "./vendor/SPE.js";
 //Importing static assets for use
 import FireSfx from "../static/audio/fire_compressed.mp3";
 import Image from "../static/images/es6.png";
 import "../sass/style.scss";
+import "../static/html/index.html";
 
 //Start Service worker to cache for offline
 OfflinePluginRuntime.install();
@@ -20,6 +24,9 @@ let renderer;
 let scene;
 let mesh;
 let stats;
+
+//Shader Particle Engine Variables
+let emitter, particleGroup;
 
 /* TweenjS vars */
 //const easing = TWEEN.Easing.Quadratic.Out;
@@ -132,11 +139,47 @@ function onWindowResize() {
   renderer.setSize(container.clientWidth, container.clientHeight);
 }
 
+// Create particle group and emitter
+function initParticles() {
+  particleGroup = new SPE.Group({
+    texture: {
+      value: THREE.ImageUtils.loadTexture("../static/images/flames.jpg")
+    }
+  });
+  emitter = new SPE.Emitter({
+    maxAge: {
+      value: 2
+    },
+    position: {
+      value: new THREE.Vector3(0, 0, -50),
+      spread: new THREE.Vector3(0, 0, 0)
+    },
+    acceleration: {
+      value: new THREE.Vector3(0, -10, 0),
+      spread: new THREE.Vector3(10, 0, 10)
+    },
+    velocity: {
+      value: new THREE.Vector3(0, 25, 0),
+      spread: new THREE.Vector3(10, 7.5, 10)
+    },
+    color: {
+      value: [new THREE.Color("orange"), new THREE.Color("red")]
+    },
+    size: {
+      value: 1
+    },
+    particleCount: 2000
+  });
+  particleGroup.addEmitter(emitter);
+  scene.add(particleGroup.mesh);
+}
+
 /* https://threejs.org/docs/#manual/en/introduction/WebGL-compatibility-check */
 if (WEBGL.isWebGLAvailable()) {
   // Initiate function or other initializations here
   window.addEventListener("resize", onWindowResize);
   init();
+  initParticles();
 } else {
   const warning = WEBGL.getWebGLErrorMessage();
   document.getElementById("three-container").appendChild(warning);

@@ -24,6 +24,12 @@ module.exports = merge(common, {
             name: '[name].[hash].[ext]'
           }
         }
+      },
+      {
+        test: /\.(html)$/,
+        use: {
+          loader: "html-loader",
+        }
       }
     ]
   },
