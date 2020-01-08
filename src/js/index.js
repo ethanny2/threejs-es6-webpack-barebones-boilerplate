@@ -5,16 +5,14 @@ import TWEEN from "@tweenjs/tween.js";
 import "promise-polyfill/src/polyfill";
 import { WEBGL } from "three/examples/jsm/WebGL.js";
 import * as Stats from "stats.js";
-import * as OfflinePluginRuntime from "offline-plugin/runtime";
 import SPE from "./vendor/SPE.js";
 //Importing static assets for use
-import FireSfx from "../static/audio/fire_compressed.mp3";
-import Image from "../static/images/es6.png";
+// import FireSfx from "../static/audio/fire_compressed.mp3";
+// import Image from "../static/images/es6.png";
 import "../sass/style.scss";
 import "../static/html/index.html";
 
-//Start Service worker to cache for offline
-OfflinePluginRuntime.install();
+//
 
 /*Threejs Vars */
 // these need to be accessed inside more than one function so we'll declare them
@@ -179,7 +177,7 @@ if (WEBGL.isWebGLAvailable()) {
   // Initiate function or other initializations here
   window.addEventListener("resize", onWindowResize);
   init();
-  initParticles();
+  //initParticles();
 } else {
   const warning = WEBGL.getWebGLErrorMessage();
   document.getElementById("three-container").appendChild(warning);
