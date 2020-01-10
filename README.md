@@ -19,27 +19,27 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 
 # Project Structure
 ```
-|-- dist
-|-- src
-    |-- js
+|-- :file_folder: dist --> Build output files; where files are built for production
+|-- :file_folder: src  --> Source files; where you do developement
+    |-- :file_folder: js
+    |   |-- index.js
     |   |-- scripts
     |   |-- vendor
-    |-- sass
-    |-- static
-        |-- audio
-        |-- fonts
-        |-- html
-        |-- images
+    |       --SPE.js
+    |-- :file_folder: sass
+        |-- style.scss
+    |-- :file_folder: static
+        |-- :file_folder: audio
+        |-- :file_folder: fonts
+        |-- :file_folder: html
+        |-- :file_folder: images
         |   |-- favicons
-        |-- models
+        |-- :file_folder: models
             |-- dragon
 |-- webpack.common.js
 |-- webpack.dev.js
 |-- webpack.prod.js
-|-- webpack.vendor.config.js
-|-- README.md
 |-- compressGltf.js
-|-- dist
 |-- package-lock.json
 |-- package.json
 |-- postcss.config.js
@@ -54,42 +54,33 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 ```
 
 ## NPM Scripts
-Removes/cleans every file in the dist/ directory. This is used before each build to 
+Removes/cleans every file in the dist directory. This is used before each build to remove all the previous build's files. The [rimraf](https://www.npmjs.com/package/rimraf) npm package gives cross-platform support for the UNIX rm -rf (remove files from a directory recursively).
 ```
 "clean": "rimraf dist/*"
 ```
+Runs the npm [eslint](https://www.npmjs.com/package/eslint) package on the current directory. (represented on UNIX by . ). ESlint will identify any incorrect patterns (expressed as either a warning or an error) and print to your terminal.
+
 ```
  "lint": "eslint ."
 ```
-
+Runs ESlint on the current directory again, but this time fixable errors (errors that have to do with formatting rules) are fixed and saved. _Errors that deal with code quality (e.g unused variables, implict global variables) musted be fixed manually_.
 ```
 "lint-fix": "eslint --fix ."
 ```
+Sequentially runs the clean script then specifies the configuration file (--config) to start the webpack production build. These webpack commands are available via the already included [webpack-cli](https://github.com/webpack/webpack-cli).
 
 ```
  "build": " npm run clean && webpack --config webpack.prod.js"
 ```
-
-```
- "build-dll": "webpack --config webpack.vendor.config.js"
-```
-
+Starts a live reloading development  server at localhost:9000. Hot module reloading is enabled for changes in any .css/.sass/.scss file. __Both the development and production configs both produce identical file structures in the dist directory, but the output files for development  are not written to disk, they are serverd from memory for better speed__. This is why the dist directory appears empty when in the developement environment.
+To stop the server press CTRL+C on Windows or CMD+C on Macs.
 ```
  "start-dev": "webpack-dev-server --open --config webpack.dev.js"
 ```
-
+Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipeline) node api in order to apply  [Draco Compression](https://google.github.io/draco/) to all .gLTF models that reside in the src/models. This results in a smaller single .gLTF file with textures included.
 ```
  "compress": "node compressGltf.js"
 ```
-
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
