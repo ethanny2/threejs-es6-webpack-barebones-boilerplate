@@ -19,22 +19,22 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 
 # Project Structure
 ```
-|-- :file_folder: dist --> Build output files; where files are built for production
-|-- :file_folder: src  --> Source files; where you do developement
-    |-- :file_folder: js
-    |   |-- index.js
-    |   |-- scripts
-    |   |-- vendor
+|-- dist --> Build output files; where files are built for production
+|-- src  --> Source files; where you do developement
+    |-- js
+    |   |-- index.js --> Singular entry point for webpack
+    |   |-- scripts  --> Any supplementary scripts or entry points go here
+    |   |-- vendor   --> Any vendor code (e.g code you didn't write)
     |       --SPE.js
-    |-- :file_folder: sass
+    |-- sass   --> write your css, sass, or scss files. All are formats are supported
         |-- style.scss
-    |-- :file_folder: static
-        |-- :file_folder: audio
-        |-- :file_folder: fonts
-        |-- :file_folder: html
-        |-- :file_folder: images
+    |-- static  --> Where to place all of your static assets and html templates
+        |-- audio
+        |-- fonts
+        |-- html
+        |-- images
         |   |-- favicons
-        |-- :file_folder: models
+        |-- models
             |-- dragon
 |-- webpack.common.js
 |-- webpack.dev.js
@@ -43,6 +43,9 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 |-- package-lock.json
 |-- package.json
 |-- postcss.config.js
+|-- .eslintrc.js
+|-- .browserslistrc
+|-- .gitignore
 ```
 
 # Usage/NPM Scripts
@@ -81,10 +84,66 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 ```
  "compress": "node compressGltf.js"
 ```
+# Table of Contents
+- [Glossary](#Glossary)
+- [Configuration/Utility Files](tbd)
+- [Development Environment/webpack.dev.js](tdb)
+- [Production Environment/webpack.prod.js](tdb)
+- [Threejs Scene and Examples](tdb)
+- [Learning Resources](tdb)
+- [Pitfalls](tbd)
+- [Credits](tbd)
 
-## Running the tests
 
-Explain how to run the automated tests for this system
+# Glossary
++ Javascript bundlers:
++ webpack:
++ Tree shakeable: 
++ gLTF:
++ glb:
++ Draco compression:
++ SASS: 
++ NPM Scripts: 
++ Threejs:
++ WebGL:
++ Minification:
++ Production Environment:
++ Development Environment:
++ Loaders: 
++ Regex:
++ Glob:
++ CommonJS:
++ ES Modules:
++ Defer attribute:
++ webpack loader order:
++ Source maps:
++ Vendor prefixes:
++ Chunks:
++ Transpilation:
++ Babel:
++ ES5:
++ ES6:
++ Browserlist:
++ Compression:
++ Preloading:
++ Cache-Bursting:
++ webpack output file substitutions:
++ webpack [contenthash]:
++ webpack [hash]: 
++ HTTP 1:
++ HTTP 2:
++ Bundle Size:
++ Entry point:
++ Hot Module Reloading:
++ robots.txt:
++ Tweening:
++ Threejs Scene:
++ Threejs Mesh:
++ Threejs setAnimationLoop():
++ SPE:
++ Particle systems:
+
+
 
 ### Break down into end to end tests
 
