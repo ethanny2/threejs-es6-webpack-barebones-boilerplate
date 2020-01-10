@@ -1,28 +1,87 @@
-# Project Title
+# threejs-webpack4-boilerplate
 
-One Paragraph of project description goes here
+![Boilerplate default scene](https://i.imgur.com/zEYnIWY.png)
 
-## Getting Started
+## About
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+**This project was created to provide a good starting point for learners who are new to [webpack](https://webpack.js.org/), javascript bundlers, and
+[threejs](https://threejs.org/)**. I wanted to create an optimal development and production environment that was simple to understand and hassle-free to set up for experts and novices alike. Project key points:
 
-### Prerequisites
+1. Unobtrusive - No unecessary abstractions or imposed design patterns. Quickly get a threejs project up and running.
+   
+2. Beginner Friendly - Every decision and
 
-What things you need to install the software and how to install them
+3. Static Site Workflow -  This boilerplate provides a streamlined workflow and configuration that also works well for making static sites without threejs.
+
+## Prerequisites
+
+To install and run this boilerplate you must have and [node.js](https://nodejs.org/) and  [git](https://git-scm.com/) installed your computer before running.
+
+# Project Structure
+```
+|-- dist
+|-- src
+    |-- js
+    |   |-- scripts
+    |   |-- vendor
+    |-- sass
+    |-- static
+        |-- audio
+        |-- fonts
+        |-- html
+        |-- images
+        |   |-- favicons
+        |-- models
+            |-- dragon
+|-- webpack.common.js
+|-- webpack.dev.js
+|-- webpack.prod.js
+|-- webpack.vendor.config.js
+|-- README.md
+|-- compressGltf.js
+|-- dist
+|-- package-lock.json
+|-- package.json
+|-- postcss.config.js
+```
+
+# Usage/NPM Scripts
+## Installation steps:
+```
+1. git clone https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate.git your-project 
+2. cd your-project 
+3. npm install
+```
+
+## NPM Scripts
+Removes/cleans every file in the dist/ directory. This is used before each build to 
+```
+"clean": "rimraf dist/*"
+```
+```
+ "lint": "eslint ."
+```
 
 ```
-Give examples
+"lint-fix": "eslint --fix ."
 ```
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+```
+ "build": " npm run clean && webpack --config webpack.prod.js"
+```
 
 ```
-Give the example
+ "build-dll": "webpack --config webpack.vendor.config.js"
 ```
+
+```
+ "start-dev": "webpack-dev-server --open --config webpack.dev.js"
+```
+
+```
+ "compress": "node compressGltf.js"
+```
+
 
 And repeat
 
@@ -58,9 +117,9 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+- [Maven](https://maven.apache.org/) - Dependency Management
+- [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Contributing
 
@@ -68,11 +127,11 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+- **Billie Thompson** - _Initial work_ - [PurpleBooth](https://github.com/PurpleBooth)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -82,6 +141,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+- Hat tip to anyone whose code was used
+- Inspiration
+- etc
