@@ -17,7 +17,7 @@
 
 To install and run this boilerplate you must have and [node.js](https://nodejs.org/) and  [git](https://git-scm.com/) installed your computer before running.
 
-# Project Structure
+# Project Structure :open_file_folder:
 ```
 |-- dist --> Build output files; where files are built for production
 |-- src  --> Source files; where you do developement
@@ -56,7 +56,7 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 3. npm install
 ```
 
-## NPM Scripts
+## NPM Scripts :scroll:
 Removes/cleans every file in the dist directory. This is used before each build to remove all the previous build's files. The [rimraf](https://www.npmjs.com/package/rimraf) npm package gives cross-platform support for the UNIX rm -rf (remove files from a directory recursively).
 ```
 "clean": "rimraf dist/*"
@@ -84,7 +84,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 ```
  "compress": "node compressGltf.js"
 ```
-# Table of Contents
+# Table of Contents :book:
 - [Glossary](#Glossary)
 - [Configuration/Utility Files](tbd)
 - [Development Environment/webpack.dev.js](tdb)
@@ -95,7 +95,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 - [Credits](tbd)
 
 
-# Glossary
+# Glossary :speech_balloon:
 + Javascript bundlers:
 + webpack:
 + Tree shakeable: 
@@ -127,6 +127,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 + Compression:
 + Preloading:
 + Cache-Bursting:
++ Caching:
 + webpack output file substitutions:
 + webpack [contenthash]:
 + webpack [hash]: 
@@ -143,7 +144,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 + SPE:
 + Particle systems:
 
-
+# Configuration/Utility Files 
 
 ### Break down into end to end tests
 
