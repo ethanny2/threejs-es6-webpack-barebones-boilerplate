@@ -48,7 +48,7 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 |-- .gitignore
 ```
 
-# Usage/NPM Scripts
+# Usage/NPM Scripts :scroll:
 ## Installation steps:
 ```
 1. git clone https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate.git your-project 
@@ -56,7 +56,7 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 3. npm install
 ```
 
-## NPM Scripts :scroll:
+## NPM Scripts 
 Removes/cleans every file in the dist directory. This is used before each build to remove all the previous build's files. The [rimraf](https://www.npmjs.com/package/rimraf) npm package gives cross-platform support for the UNIX rm -rf (remove files from a directory recursively).
 ```
 "clean": "rimraf dist/*"
@@ -144,54 +144,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 + SPE:
 + Particle systems:
 
-# Configuration/Utility Files 
+# Configuration/Utility Files :wrench:
 
-### Break down into end to end tests
 
-Explain what these tests test and why
 
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-- [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-- [Maven](https://maven.apache.org/) - Dependency Management
-- [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
-
-## Authors
-
-- **Billie Thompson** - _Initial work_ - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
