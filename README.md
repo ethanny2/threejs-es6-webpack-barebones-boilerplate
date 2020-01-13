@@ -46,6 +46,7 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 |-- .eslintrc.js
 |-- .browserslistrc
 |-- .gitignore
+|--  robots.txt
 ```
 
 # Usage/NPM Scripts :scroll:
@@ -96,6 +97,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 
 
 # Glossary :speech_balloon:
++ Polyfil:
 + Javascript bundlers:
 + webpack:
 + Transpilation:  
@@ -180,7 +182,7 @@ TBD
  + __Warning__ (1): ESLint prints warning to terminal if rule is broken
  + __Error__ (2): ESLint creates an error and the program will not compile if this rule is broken 
 
-In this configuration I set the rule "no-unused-vars" to 1, so it will warn me if I have any unused variables but it will still allow my program to compile. "eslint linebreak-style" is a fix for Windows computers. Normally this eslint configuration will propagate an error everytime you hit  the enter key on a computer running Windows because the enter key returns CRLF, whereas on UNIX environments hitting enter will just produce an LF character. This line supresses that error on Windows. [Read More](https://github.com/diegohaz/arc/issues/171) 
+In this configuration I set the rule "no-unused-vars" to 1, so it will warn if there are any unused variables but it will still allow my program to compile. "eslint linebreak-style" is a fix for Windows computers. Normally this eslint configuration will propagate an error everytime you hit  the enter key on a computer running Windows because the enter key returns CRLF, whereas on UNIX environments hitting enter will just produce an LF character. This line supresses that error on Windows. [Read More](https://github.com/diegohaz/arc/issues/171) 
 ```
 ...
   rules: {
@@ -189,9 +191,9 @@ In this configuration I set the rule "no-unused-vars" to 1, so it will warn me i
   }
 ...
 ```
-While you could definately have ESLint handle both formatting styles and code-quality rules a very common configuration (and the one used by this project) is using an ESLint in combination with another code formatter called [Prettier](https://prettier.io/). Prettier handles the formatting of your code, and ESlint handles the code-quality rules. You can read more about these rules at the following [link](https://prettier.io/docs/en/comparison.html).
+While you could definately have ESLint handle both formatting styles and code-quality rules a very common configuration (and the one used by this project) is using ESLint in combination with another code formatter called [Prettier](https://prettier.io/). Prettier handles the formatting of your code, and ESlint handles the code-quality rules. You can read more about these rules at the following [link](https://prettier.io/docs/en/comparison.html).
 
-However if you have both ESLint and Prettier installed ESLint will attempt to both handle formatting styles and code-quality rules; this may led to an annoying situation where your prettier formatter is breaking your ESLint or vice-versa. In order to prevent this we use a combination of [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) and [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier). 
+However if you have both ESLint and Prettier installed ESLint will attempt to both handle formatting styles and code-quality rules by default; this may led to an annoying situation where your prettier formatter is breaking your ESLint or vice-versa. In order to prevent this we use a combination of [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) and [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier). 
 
 The extends fields allows you to use a predefined/shared set of ESlint rules from another configuration. This is where the majority of the ESLint rules come from as I have only explictly declared 2 rules as seen above.  The order of this array is processed from right to left so it will gather rules from  "plugin:prettier/recommended" first then extend/supplement that rule set with the rules found in "eslint:recommended". [Read more](https://stackoverflow.com/questions/46544082/it-this-the-correct-way-of-extending-eslint-rules)
 
@@ -203,3 +205,19 @@ extends: ["eslint:recommended","plugin:prettier/recommended"]
 ```
 
 ## postcss.config.js
+
+This configuration file is used by the [postcss-loader](https://github.com/postcss/postcss-loader) NPM package. Postcss-loader is a webpack loader that is used to transform your CSS while adding a number of benefical features such as increased readability, vendor-prefixes and polyfills. [Read more](https://postcss.org/)
+
+In this case we want to add vendor-prefixes automatically to our CSS code so we specify the postcss-loader to use the  [Autoprefixer](https://github.com/postcss/autoprefixer) in this configuration file.
+  
+```
+  plugins: [require("autoprefixer")]
+```
+
+## robots.txt
+A common file included on websites that specifies which pages of your site can be accessed/indexed by a web crawler (bot that indexes content for search engines). Below we allow all web crawlers (User-agent) to access our site with the wild card (*) symbol. Additionally, we allow all web crawlers to access all parts of our site; note this is the configuration is used by default and doesn't even need a robots.txt file. [Read more](https://support.google.com/webmasters/answer/6062596?hl=en)
+
+```
+User-agent: *
+Allow: /
+```
