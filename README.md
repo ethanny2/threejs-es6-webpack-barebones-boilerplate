@@ -145,7 +145,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 + SPE:
 + Particle systems:
 + Frustum:
-+ 
++ Linter: 
 # Configuration/Utility Files :wrench:
 
 
@@ -175,4 +175,31 @@ maintained node versions
 TBD
 
 ## .eslintrc.js
-(ESLint)[https://eslint.org/] is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
+[ESLint](https://eslint.org/) is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. Through the use of this configuration file you can specify rules that propagate one of the following things...
+ + __Nothing__ (0): ESLint ignores any rule with 0
+ + __Warning__ (1): ESLint prints warning to terminal if rule is broken
+ + __Error__ (2): ESLint creates an error and the program will not compile if this rule is broken 
+
+In this configuration I set the rule "no-unused-vars" to 1, so it will warn me if I have any unused variables but it will still allow my program to compile. "eslint linebreak-style" is a fix for Windows computers. Normally this eslint configuration will propagate an error everytime you hit  the enter key on a computer running Windows because the enter key returns CRLF, whereas on UNIX environments hitting enter will just produce an LF character. This line supresses that error on Windows. [Read More](https://github.com/diegohaz/arc/issues/171) 
+```
+...
+  rules: {
+    "no-unused-vars": 1,
+    "eslint linebreak-style": [0, "error", "windows"],
+  }
+...
+```
+While you could definately have ESLint handle both formatting styles and code-quality rules a very common configuration (and the one used by this project) is using an ESLint in combination with another code formatter called [Prettier](https://prettier.io/). Prettier handles the formatting of your code, and ESlint handles the code-quality rules. You can read more about these rules at the following [link](https://prettier.io/docs/en/comparison.html).
+
+However if you have both ESLint and Prettier installed ESLint will attempt to both handle formatting styles and code-quality rules; this may led to an annoying situation where your prettier formatter is breaking your ESLint or vice-versa. In order to prevent this we use a combination of [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) and [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier). 
+
+The extends fields allows you to use a predefined/shared set of ESlint rules from another configuration. This is where the majority of the ESLint rules come from as I have only explictly declared 2 rules as seen above.  The order of this array is processed from right to left so it will gather rules from  "plugin:prettier/recommended" first then extend/supplement that rule set with the rules found in "eslint:recommended". [Read more](https://stackoverflow.com/questions/46544082/it-this-the-correct-way-of-extending-eslint-rules)
+
+```
+...
+plugins: ["prettier"]
+...
+extends: ["eslint:recommended","plugin:prettier/recommended"]
+```
+
+## postcss.config.js
