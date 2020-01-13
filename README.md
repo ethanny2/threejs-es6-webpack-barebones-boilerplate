@@ -9,7 +9,7 @@
 
 1. Unobtrusive - No unecessary abstractions or imposed design patterns. Quickly get a threejs project up and running.
    
-2. Beginner Friendly - Every decision and
+2. Beginner Friendly - Well documented with numerous explainations of concepts and  of code. 
 
 3. Static Site Workflow -  This boilerplate provides a streamlined workflow and configuration that also works well for making static sites without threejs.
 
@@ -98,6 +98,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 # Glossary :speech_balloon:
 + Javascript bundlers:
 + webpack:
++ Transpilation:  
 + Tree shakeable: 
 + gLTF:
 + glb:
@@ -143,8 +144,35 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 + Threejs setAnimationLoop():
 + SPE:
 + Particle systems:
-
++ Frustum:
++ 
 # Configuration/Utility Files :wrench:
 
 
+## .browserslistrc
+[Browserlist](https://github.com/browserslist/browserslist) is a configuration settings file that is shared across multiple different tools used to build the front-end of websites. In this configuration file you can specify which browsers you wish to support. In this project the NPM packages  [Autoprefixer](https://github.com/postcss/autoprefixer) and [Babel](https://github.com/babel/babel/tree/master/packages/babel-preset-env) are reliant on this configuration file to produce an output that is usable on the browsers specified in this file.
 
+ For instance the contents of my file specify -> (not IE 11), so any features needed to support IE 11 browsers that would normally be added by Autoprefixer and Babel are excluded during the build process.
+
+ Each line in this file represents a new browser query:
+ + "defaults"  is provided by Browserlist and represents a reasonable starting configuration for most projects
+ + "maintained node versions" means _target all nodejs versions still maintained by the Node.js foundation_.
+
+The full list and how to make construct advanced queries can be found on the Browserlist github page.
+
+
+```
+defaults
+not IE 11
+not IE_Mob 11
+maintained node versions
+```
+
+## compressGltf.js
+```
+//
+```
+TBD
+
+## .eslintrc.js
+(ESLint)[https://eslint.org/] is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
