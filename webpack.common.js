@@ -22,7 +22,6 @@ module.exports = {
     // vendor: vendorEntry
   },
   output: {
-    // Content hash used for cache bursting
     filename: "js/[name].bundle.js",
     path: path.resolve(__dirname, "dist")
   },
