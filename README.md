@@ -107,7 +107,6 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 - [Production Environment/webpack.prod.js](tdb)
 - [Threejs Scene and Examples](tdb)
 - [Learning Resources](tdb)
-- [Pitfalls](tbd)
 - [Credits](tbd)
 
 # Glossary :speech_balloon:
@@ -144,7 +143,7 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 - Browserlist:
 - Compression:
 - Preloading:
-- Cache-Bursting:
+- Cache-Busting:
 - Caching:
 - webpack output file substitutions:
 - webpack [contenthash]:
@@ -360,16 +359,16 @@ new HtmlWebpackPlugin({
     template: "./src/static/html/index.html",
     favicon: "./src/static/images/favicons/favicon.ico",
     inject: "head"
-})
+}),
+//new HtmlWebpackPlugin({...}) to make more html pages 
 ```
 [preload-webpack-plugin](https://github.com/GoogleChromeLabs/preload-webpack-plugin) is a plugin that injects rel="preload" attributes into certain link tags created by the HtmlWebpackPlugin. This is used on fonts exclusively as they are most condusive to preload and support good user experience and preventing FOUC (flash of unstyled content/text). [Read more](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content).
 
 + rel: indicates what attribute we wish to add. (can also be prefetch)
-+ fileWhiteList: array of values. One regex is used to match all font file types.
++ fileWhiteList: array of values of which file types to whitelist. One regex is used to match all font file types.
 + as: Is a key that returns the type of resource (font,script are possible vals) that will be targeted by this plugin. This function uses a regex to check all font types and return "font" if any are matched. 
-+ include: "allAssets" ensures this preloads fonts also resolved using file-loader. [Read more](https://github.com/GoogleChromeLabs/preload-webpack-plugin/issues/89)
-  
-* *
++ include: "allAssets" ensures this preloads fonts also resolved using file-loader. 
+  [Read more](https://github.com/GoogleChromeLabs/preload-webpack-plugin/issues/89)
 
 ```
 new PreloadWebpackPlugin({
@@ -391,16 +390,221 @@ new ScriptExtHtmlWebpackPlugin({
 
 ### __Optimizations and Chunking__
 
+#### Chunks/ Code Splitting
+To avoid the issue of duplicate code and dependencies webpack has a feature that allows you to break you code up into chunks (also known as code splitting). As of webpack version < 4 code splitting into separate chunks is achieved through optimization.splitChunks property of a webpack config file. 
+
+*Side Note: In webpack < 4 there are already intelligent defaults in place for creating chunks that fit web performance best practices. [Learn more](https://webpack.js.org/plugins/split-chunks-plugin/)
+#### Caching
+Once your site has been deployed to a server a common technique is to add a hash within the file name (e.g script.7e2c49a622975ebd9b7e.js) and then change the hash value _ONLY IF_ the contents of the file changed. This ensures the visitor will only donwload files that change from build to build and have the rest served from their cache for better performance. This is a process known as _cache-busting_ and is very easy to configure and use in webpack 4. In combination with code splitting this is a very powerful tool to keep your live site fast for returning visitors. [Read more](https://webpack.js.org/guides/caching/)
+
+
+#### Output substitutions
+To automatically generate unique hashes for files webpack uses a feature called [**substitutions**](https://webpack.js.org/configuration/output/#outputfilename) that are able to add templating to the output of file names. There are several substitutions available, but the ones used in this project are
++ [name]: Interpreted as the name of the file used to create the output
++ [ext]: Interpreted as the extension of the file used to create the output
++ [hash]: Interpreted as a unique hash that changes each time any file in the build changes
++ [contenthash]: Interpreted as a unique hash that only changes if the content of a file does
+
+[hash vs contenthash vs chunkhash](https://medium.com/@sahilkkrazy/hash-vs-chunkhash-vs-contenthash-e94d38a32208)
+
+
+webpack has a default behavior that will change the [contenthash] even when nothing in that particular file has changed. This is because everytime you build webpack generates an unique piece of code that contains the manifest and the runtime environment responsible for linking the code together. If left on this means that the end-user will ultimately redownload whole files even when the content is identical to the one in their cache. In order to prevent this we use the following settings
++ runtimeChunk:"single" -> Tells webpack to take the runtime code needed build project and offload it into a runtime .js file so on subsequent builds if no content changed their contenthashes will remain the same.
++ moduleIds:"hashed" -> Without this option set webpack will increment the module.id field of each all chunks when a build is triggered; this often leads to the vendor/node_modules folder chunk changing its contenthash value (even though no vendor code was changed or added) and triggering a large redownload of data for the user. 
++ splitChunks: In conjunction with cacheGroups is how to perform chunking in webpack. In the example below I name a chunk styles and target all .css via a regex.
+
 ```
-//
+...
+optimization: {
+    runtimeChunk: "single",
+    moduleIds: "hashed",
+    splitChunks: {
+        cacheGroups: {
+            styles: {
+                name: "styles",
+                test: /\.css$/,
+                chunks: "all",
+                enforce: true
+            }
+        }
+    }
+}
+...
 ```
 
 # Development Environment/webpack.dev.js :computer:
+### __Overview__
+The development environment builds to dist/. It includes a development server with live-reload, loaders for static files, and basic chunking optimizations. Hashing is not needed instead files are output with this simple substitution [name].[ext]
+
+### __Loaders__
++ [file-loader](https://webpack.js.org/loaders/file-loader/): is used to load most static assets including images, html files, fonts, 3D models and audio. Add to the regex to suit your own needs.
+  + esModule: false -> This setting is critical to getting this library to work with html-loader. This turns off file-loaders ES2015 module syntax and reverts it to CommonJS so it will correctly parse image src attributes with html-loader. [Read More](https://stackoverflow.com/questions/59070216/webpack-file-loader-outputs-object-module) html-loader doesn't yet support es module syntax and it is a known [issue](https://github.com/webpack-contrib/html-loader/issues/203).
+
+```
+{
+    test: /\.(png|svg|jpe?g|gif|ico)$/i,
+        use: {
+            loader: "file-loader",
+            options: {
+                outputPath: "images/",
+                name: "[name].[ext]",
+                esModule: false
+            }
+        }
+}
+```
+
+### __Dev Server__
+Spins up a development server at the specified port using [webpack-dev-server](https://webpack.js.org/configuration/dev-server/).
+  + hot:true -> Enables hot module reloading of the server
+  + compress:true -> Serves development build via compressed formats for better performance. 
+  + contentBase -> Specifies path to build/output directory.
+
+```
+ devServer: {
+    contentBase: "./dist",
+    compress: true,
+    hot: true,
+    port: 9000
+  }
+```
+
+### __Plugins__
+Styles are loaded in the webpack.common.js config file and the mini-extract-css-plugin is used to configure the output of the .css file created by the development build.
+```
+new MiniCssExtractPlugin({
+      filename: "css/style.css",
+      chunkFilename: "css/style.[id].css"
+})
+```
+### __Optimizations__ 
+The node_modules folder is separated and chunked into a group called vendor to prevent redownload. This is done by deafult in webpack 4 but included for clarity's sake.
+
+```
+...
+cacheGroups: {
+    vendor: {
+        test: /[\\/]node_modules[\\/]/,
+        name: "vendor",
+        chunks: "all",
+        reuseExistingChunk: true
+    },
+}
+...
+```
+
+# Production Environment/webpack.dev.js :tada:
+### __Overview__
+The production environment builds to dist/. There are a number of optimization in place that help produce the fastest most efficient production site such as... compression of image files, minification of .html, .js , .css files, gzip compression of all files, and automatic removal of unsued css styles through out the whole project. Each file is output with a [contenthash] substitution in order to facilitate proper hashing on file names that only change if a particular file's content does.
+
+### __Loaders__
++ [file-loader](https://webpack.js.org/loaders/file-loader/): Loads in the same manner as the development environment and is used to include most static assets including images, html files, fonts, 3D models and audio. Add to the regex to suit your own needs.
+
+```
+{
+    test: /\.(png|svg|jpe?g|gif|ico)$/i,
+        use: {
+            loader: "file-loader",
+            options: {
+                outputPath: "images/",
+                name: "[name].[contenthash].[ext]",
+                esModule: false
+            }
+        }
+}
+```
+
+### __Plugins__
++ mini-css-extract-loader: Styles are loaded in the webpack.common.js config file and the mini-extract-css-plugin is used to configure the output of the .css file created by the production build.
+```
+new MiniCssExtractPlugin({
+      filename: "css/style.css",
+      chunkFilename: "css/style.[id].css"
+})
+```
++ [imagemin-webpack-plugin](https://www.npmjs.com/package/imagemin-webpack-plugin): Used to compress your image files that are produced by your production build process. By default this plugin has a set a default compression methods that compresses gif, png and jpg files. The [imagemin-mozjpeg](https://www.npmjs.com/package/imagemin-mozjpeg) package is a plugin for Imagemin that offers a wide range of options for compression quality of jpeg images.
+```
+new ImageminPlugin({
+    optipng: {
+        optimizationLevel: 6
+    },
+    plugins: [
+        imageminMozjpeg({
+            quality: 100,
+            progressive: true
+        })
+    ]
+})
+```
++ [compression-webpack-plugin](https://www.npmjs.com/package/compression-webpack-plugin): Used to gzip all files that match the specified test regex. In this case all html, css, and js files are gziped. _Note both the normal version of the file and the zipped version are produced. When served over a network that accepts gzipped content the zipped version will be sent_.
+```
+ new CompressionPlugin({
+      test: /\.(html|css|js)(\?.*)?$/i
+})
+```
++ [purgecss-webpack-plugin](https://www.npmjs.com/package/purgecss-webpack-plugin): [Purgecss](https://www.purgecss.com/) is a tool that detects any unused css code in your project and deletes it so you are not serving unnecessary styles; this is particularly helpful when using a styling framework like Bootstrap that includes a lot of extraneous code.
+  + paths: Is used in conjunction with [glob](https://www.npmjs.com/package/glob) to specify a partern the searches the entire project for css to potentially delete.
+```
+ new PurgecssPlugin({
+    paths: glob.sync("src/**/*", { nodir: true })
+})
+```
+_Note: These plugins are included in the optimization.minimizer section because they deal with minification of code._
++ [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin): Is a tool used to minify all .js files (target by default) in the project. Running cache, and parallel speeds up the minification process.
+```
+new TerserJSPlugin({
+    cache: true,
+    parallel: true,
+    sourceMap: true
+})
+```
++ [optimize-css-assets-webpack-plugin](https://www.npmjs.com/package/optimize-css-assets-webpack-plugin): A webpack plugin to optimize and minimize CSS assets. Set of defaults is used so no configuration is needed.
+```
+new OptimizeCSSAssetsPlugin({})
+```
+
+### __Optimizations__ 
+In the production environment is really where chunking optimizations matter. A common tactic (and the one used in the development environment) is to create a custom chunk for all node_modules code. This is a good first step to reducing the end-users bundle size as they will only redownload those node_modules dependencies if any of the code within them changes. However, with this configuration the user has to download the _whole vendor chunk if any of the files in node_modules changes_. This could incur redownloading of data that is identical to the one in the end user's cache. 
+
+To fix this we take it a step further we create a chunk for each individual NPM package within the node_modules/ folder so that if any dependency is altered it ensures the return visitor of the site only downloads the NPM packages that changed.
+
+This results in a js file for each NPM package included in the dependencies of your project. In the past where most websites were served via HTTP/1 more requests meant an overall slower site and a longer load time. Today most site serve requests via [HTTP/2](https://kinsta.com/learn/what-is-http2/) which allows parallel multiplexed requests and is generally fast regardless of the number of requests.
+ [Source](https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758)
+[Source2](https://calendar.perfplanet.com/2019/bundling-javascript-for-performance-best-practices/)
+
+
+```
+...
+cacheGroups: {
+    vendor: {
+        test: /[\\/]node_modules[\\/]/,
+        reuseExistingChunk: true,
+        name(module) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1];
+            return `vendor/npm.${packageName.replace("@", "")}`;
+          }
+    },
+}
+...
+```
+
+
+# Threejs Scene and Examples
 ```
 ///
 ```
 
-# Production Environment/webpack.dev.js :tada:
+# Learning Resoruces
 ```
 ///
 ```
+
+# Credits
+
+
+```
+///
+```
+

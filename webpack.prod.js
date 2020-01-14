@@ -73,7 +73,7 @@ module.exports = merge(common, {
         use: {
           loader: "html-loader",
           options: {
-            // minimize: true
+            minimize: true,
             root: path.resolve(__dirname, "dist")
           }
         }
@@ -102,12 +102,10 @@ module.exports = merge(common, {
     new PurgecssPlugin({
       paths: glob.sync("src/**/*", { nodir: true })
     })
-    // new OfflinePlugin()
   ],
   optimization: {
     minimizer: [
       // Minify JS; by default applies to all .js files;
-      // Included by default in Webpack 4; inclued for clarity
       new TerserJSPlugin({
         cache: true,
         parallel: true,
@@ -115,7 +113,6 @@ module.exports = merge(common, {
       }),
       // Minify CSS; default applies to all .css files
       new OptimizeCSSAssetsPlugin({})
-      //Creates service worker for Webpack generated assets
     ],
     splitChunks: {
       chunks: "all",
