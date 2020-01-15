@@ -111,57 +111,34 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 
 # Glossary :speech_balloon:
 
-- Polyfil:
-- Javascript bundlers:
-- webpack:
-- Transpilation:
-- Tree shakeable:
-- gLTF:
-- glb:
-- Draco compression:
-- SASS:
-- NPM Scripts:
-- Threejs:
-- WebGL:
-- Minification:
-- Production Environment:
-- Development Environment:
-- Loaders:
-- Regex:
-- Glob:
-- CommonJS:
-- ES Modules:
-- Defer attribute:
-- webpack loader order:
-- Source maps:
-- Vendor prefixes:
-- Chunks:
-- Transpilation:
-- Babel:
-- ES5:
-- ES6:
-- Browserlist:
-- Compression:
-- Preloading:
-- Cache-Busting:
-- Caching:
-- webpack output file substitutions:
-- webpack [contenthash]:
-- webpack [hash]:
-- HTTP 1:
-- HTTP 2:
-- Bundle Size:
-- Entry point:
-- Hot Module Reloading:
-- robots.txt:
-- Tweening:
-- Threejs Scene:
-- Threejs Mesh:
-- Threejs setAnimationLoop():
-- SPE:
-- Particle systems:
-- Frustum:
-- Linter:
+- [Polyfill](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill): Piece of code (js file in the context of the web) used to provide modern functionality to older browsers that don't natively support it.
+- [Javascript bundlers](https://medium.com/@gimenete/how-javascript-bundlers-work-1fc0d0caf2da): Tools that gather your javascript files and dependencies into (usually) one js file.
+- [webpack](https://webpack.js.org/):  A static module bundler for modern JavaScript applications. When webpack processes your application, it internally builds a dependency graph which maps every module your project needs and generates one or more bundles. 
+- [Transpilation](https://scotch.io/tutorials/javascript-transpilers-what-they-are-why-we-need-them): Type of compiler that takes source code written in a specific programming language and produces the equivalent source code in the same or a different programming language.
+- [Tree shaking](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking): Is a term (in the context of JavaScript) used to describe the removal of dead/unused code. Bundlers such as webpack and Rollup automatically remove dead code when bundling multiple JavaScript files.   
+- [gLTF](https://wiki.fileformat.com/3d/gltf/): A one-size fits all file format that stores 3D model information in a JSON format. This results in a reduction of the size of the 3D asset and the time needed to unpack those assets. (Format optimized for web)
+- [glb](https://wiki.fileformat.com/3d/glb/): A binary file format representation of 3D models saved in the GL Transmission Format (glTF). This binary format stores all of the .gLTF's assets (JSON, .bin, textures) in the binary blob.
+- [Draco compression](https://google.github.io/draco/): An open source library for compression and decompressing 3D assets.
+- [Threejs](https://github.com/mrdoob/three.js/): A 3D javascript library that abstracts obtuse webGL concepts into streamlined code base.
+- [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API): A JavaScript API for rendering high-performance interactive 3D and 2D graphics within any compatible web browser without the use of plug-ins
+- [Minification](https://developer.mozilla.org/en-US/docs/Glossary/minification): The process of removing unnecessary or redundant data without affecting how a resource is processed by the browser 
+- [Production Environment](https://dev.to/flippedcoding/difference-between-development-stage-and-production-d0p): An environment that represents the finished website live on the internet. Usually this environment prioritizes minification, compression and optimization of assets to produce the best site.
+- [Development Environment](https://dev.to/flippedcoding/difference-between-development-stage-and-production-d0p): An environment that resides locally on your computer where you can test features and code. Usually has some mechanism in place to run the project on localhost with live reloading. 
+- [Loaders](https://webpack.js.org/concepts/): Community written packages that make it possible to add file types other than .js to webpack's dependency graph building
+- [Regular Expression](https://developer.mozilla.org/en-US/docs/Glossary/Regular_expression): Rules that govern which sequence of character come up in a search. (Also known as regex)
+- [Glob](https://gulpjs.com/docs/en/getting-started/explaining-globs): A string of literal and/or wildcard characters used to match filepaths. Globbing is the act of locating files on a filesystem using one or more globs.
+- [CommonJS](https://flaviocopes.com/commonjs/): Standard module specification used in Node.js used to break JavaScript programs into smaller more managable pieces called modules. (e.g require(...) is the CommonJS format)
+- [ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules): Standard module specification used/supported by most modern browsers. webpack recognizes both CommonJS and ES Module syntax. 
+- [Script defer attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script): Boolean attribute set on script tags that indicates to a browser that the script is meant to be executed after the document has been parsed, but before firing DOMContentLoaded.
+- [Source maps](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map): A file that maps from the transformed source to the original source, enabling the browser to reconstruct the original source and present the reconstructed original in the debugger. (Babel/transpilation and minification are two examples of processes that transform your code)
+- [Vendor prefixes](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix): Prefixes specified by browser vendors to enable the use of experimental modern/cutting-edge CSS features. Developers should wait to include the unprefixed property until browser behavior is standardized
+- [Chunk](https://webpack.js.org/guides/code-splitting/): A  name used by webpack to  represents a module of code that is the result code-splitting your program 
+- [Linter](https://sourcelevel.io/blog/what-is-a-linter-and-why-your-team-should-use-it): Is a tool that analyzes source code to flag programming errors, bugs, stylistic errors, and suspicious constructs
+- [Compression](https://developer.mozilla.org/en-US/docs/Web/HTTP/Compression): A method used in software development to decrease the size and redundancy of a particular file to make it more compact and efficient to serve over the web.
+- [HTTP/1](https://developer.mozilla.org/en-US/docs/Glossary/HTTP): Network protocol that enables transfer of hypermedia documents on the Web, typically between a browser and a server so that humans can read them. Characterized by making multiple requests per asset needed (not so efficient)
+- [HTTP 2](https://developer.mozilla.org/en-US/docs/Glossary/HTTP_2): A major revision of the HTTP network protocol. The primary goals for HTTP/2 are to reduce latency by enabling full request and response multiplexing, minimize protocol overhead via efficient compression of HTTP header fields.
+- [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/): Exchanges, adds, or removes modules while an application is running, without a full reload. This is particularly useful for a development environment where you can maintain application state while changing the application source.
+- [Tweening](https://www.webopedia.com/TERM/T/tweening.html): Short for in-betweening, the process of generating intermediate frames between two images to give the appearance that the first image evolves smoothly into the second image. (e.g Animation of an object/mesh from one position to another)
 
 # Configuration/Utility Files :wrench:
 
@@ -606,7 +583,7 @@ cacheGroups: {
 + [Sketchfab](https://sketchfab.com/): Selection of free and paid 3D models in many formats. Models are usually licensed with [Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) which means you are free to adapt and share the model as long as you give credit.
 + [Google poly](https://poly.google.com/): Another curated selection of free 3D models available on a wide variety of formats.
 + [Turbosquid](https://www.turbosquid.com/): Collection of paid and free 3D models to experiment with.
-+ [Threejs fundamentals](https://threejsfundamentals.org/): Excellent (if not one of the only) resources to learn modern threejs. Topics range from beginner to advanced.
++ [Threejs fundamentals](https://threejsfundamentals.org/): Excellent (if not one of the only) resource to learn modern threejs. Topics range from beginner to advanced.
 ### __webpack__
 + [webpack docs](https://webpack.js.org/guides/getting-started/): Great documentation and generally has everything you need to understand webpack.
 + [webpack beginner guide article](https://dev.to/pixelgoo/how-to-configure-webpack-from-scratch-for-a-basic-website-46a5): Article I found useful when learning webpack.
