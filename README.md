@@ -591,20 +591,33 @@ cacheGroups: {
 ```
 
 
-# Threejs Scene and Examples
+# Threejs Scene and Examples :three:
 ```
 ///
 ```
 
-# Learning Resoruces
-```
-///
-```
+# Learning Resoruces :books:
+### __Threejs__
++ [Threejs Resources Page](https://threejs.org/docs/#manual/en/introduction/Useful-links)
++ [Stanford 3D Scanning Repository](http://graphics.stanford.edu/data/3Dscanrep/): Free 3D models to experiment with
++ [Threejs loader](https://discoverthreejs.com/apps/loader/): Online app where you can test your glTF, FBX and dae 3D models.
++ [Gltf Viewer](https://gltf.insimo.com/): Online app where you can upload .glTF files and either convert them to .glb files or compress them with draco compression.
++ [Discover Threejs](https://discoverthreejs.com/): Good beginner resource and introduction to setting up a Threejs scene written by one of the libraries main contributors. (Not finished)
++ [Sketchfab](https://sketchfab.com/): Selection of free and paid 3D models in many formats. Models are usually licensed with [Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) which means you are free to adapt and share the model as long as you give credit.
++ [Google poly](https://poly.google.com/): Another curated selection of free 3D models available on a wide variety of formats.
++ [Turbosquid](https://www.turbosquid.com/): Collection of paid and free 3D models to experiment with.
++ [Threejs fundamentals](https://threejsfundamentals.org/): Excellent (if not one of the only) resources to learn modern threejs. Topics range from beginner to advanced.
+### __webpack__
++ [webpack docs](https://webpack.js.org/guides/getting-started/): Great documentation and generally has everything you need to understand webpack.
++ [webpack beginner guide article](https://dev.to/pixelgoo/how-to-configure-webpack-from-scratch-for-a-basic-website-46a5): Article I found useful when learning webpack.
++ [More on webpack chunks](https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693): Good guide on webpack < 4 chunking mechanism
 
-# Credits
+# Credits :bookmark_tabs:
++ Favicon Source: [pikpng](https://www.pikpng.com/pngvi/hRxThh_3d-silver-cube-3d-transparent-cube-png-clipart/)
++ Dragon 3D Model Source: [Sketchfab](https://sketchfab.com/3d-models/dragon-f4b218fb3b0d49e9b3a27367850517b8). Originally from the Stanford 3D scanning repository.
++ Fire Audio Source: [freesoundeffects](https://www.freesoundeffects.com/free-track/crackling-fireplace-89305/)
++ Loading Screen Code: [Threejs Forum](https://discourse.threejs.org/t/basic-loading-screen/2332)
++ Wedgie Font: [1001freefonts](https://www.1001freefonts.com/wedgie.font)
 
 
-```
-///
-```
-
+If there is something you feel you can explain better, or other fixes to this project feel free to do a PR.
