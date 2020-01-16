@@ -1,18 +1,23 @@
 import * as THREE from "three";
 //global.THREE = require("three");
-
+const path = require("path");
 import TWEEN from "@tweenjs/tween.js";
 import "promise-polyfill/src/polyfill";
 import { WEBGL } from "three/examples/jsm/WebGL.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as Stats from "stats.js";
 import SPE from "./vendor/SPE.js";
 //Importing static assets for use
 // import FireSfx from "../static/audio/fire_compressed.mp3";
-// import Image from "../static/images/es6.png";
+import Image from "../static/images/es6.png";
+import dragonModel from "../static/models/dracoDragon.gltf";
 import "../sass/style.scss";
 import "../static/html/index.html";
 
-//
+//To enable caching across all loaders that use FileLoader, set
+THREE.Cache.enabled = true;
 
 /*Threejs Vars */
 // these need to be accessed inside more than one function so we'll declare them
@@ -22,6 +27,9 @@ let renderer;
 let scene;
 let mesh;
 let stats;
+let controls;
+let loader;
+let dracoLoader;
 
 //Shader Particle Engine Variables
 let emitter, particleGroup;
@@ -33,7 +41,7 @@ let cubeRotateTweenA;
 //Used in cubeRotateTweenA to perform a full rotation from 0.
 const rotateCoords = new THREE.Vector3(Math.PI, Math.PI, Math.PI);
 const clock = new THREE.Clock();
-
+const dracoDecodePath = "./js/vendor/draco/";
 function init() {
   stats = new Stats();
   // 0: fps, 1: ms, 2: mb
@@ -70,10 +78,47 @@ function init() {
   scene.add(mesh);
   console.log(mesh.rotation);
   // Create a directional light
-  const light = new THREE.DirectionalLight(0xffffff, 5.0);
+  const light = new THREE.DirectionalLight(0xffffff, 2.0);
 
   // move the light back and up a bit
   light.position.set(10, 10, 10);
+
+  /*Add helper grid */
+  var gridHelper = new THREE.GridHelper(20, 20);
+  gridHelper.position.set(0, -2, 0);
+  scene.add(gridHelper);
+
+  /* Add helper axis*/
+  var axesHelper = new THREE.AxesHelper(5);
+  scene.add(axesHelper);
+
+  /* Add in draco compressed dragon .gltf model*/
+  loader = new GLTFLoader();
+  dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath(dracoDecodePath);
+  // dracoLoader.preload();
+  loader.setDRACOLoader(dracoLoader);
+  console.log(dragonModel);
+  console.log(Image);
+  loader.load(
+    dragonModel,
+    function(gltf) {
+      gltf.scene.scale.set(0.08, 0.08, 0.08);
+      gltf.scene.rotation.set(0, Math.PI / 2, 0);
+      gltf.scene.position.set(3, 0, 0);
+      scene.add(gltf.scene);
+    },
+    // called while loading is progressing
+    function(xhr) {
+      if (xhr.lengthComputable) {
+        console.log("percent: " + (xhr.loaded / xhr.total) * 100);
+      }
+    },
+    // called when loading has errors
+    function(error) {
+      console.log("An error happened");
+    }
+  );
 
   // remember to add the light to the scene
   scene.add(light);
@@ -98,6 +143,8 @@ function init() {
 
   // add the automatically created <canvas> element to the page
   container.appendChild(renderer.domElement);
+  //Set up orbit controls
+  controls = new OrbitControls(camera, renderer.domElement);
 
   // start the animation loop
   renderer.setAnimationLoop(() => {

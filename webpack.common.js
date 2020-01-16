@@ -2,9 +2,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 /* For convenience; denotes often used environment info */
 const entry = path.resolve(__dirname, "./src/js/index.js");
 const nodePath = path.resolve(__dirname, "./node_modules");
@@ -106,10 +106,9 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: "defer"
     }),
-    // new MiniCssExtractPlugin({
-    //   filename: "css/style.css",
-    //   chunkFilename: "css/style.[id].css"
-    // })
+    new CopyPlugin([
+      { from:  path.resolve(__dirname, './src/js/vendor/draco'), to: 'js/vendor/draco' }
+    ])
   ],
   optimization: {
     runtimeChunk: "single",

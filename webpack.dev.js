@@ -76,7 +76,7 @@ module.exports = merge(common, {
     ]
   },
   devServer: {
-    contentBase: "./dist",
+    contentBase:  path.join(__dirname, 'src/static'),
     compress: true,
     hot: true,
     port: 9000
