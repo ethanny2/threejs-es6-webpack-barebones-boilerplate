@@ -8,10 +8,11 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as Stats from "stats.js";
-import SPE from "./vendor/SPE.js";
+import { SPE } from "./vendor/SPE.js";
 //Importing static assets for use
 // import FireSfx from "../static/audio/fire_compressed.mp3";
-import Image from "../static/images/es6.png";
+import brushMetalTexture from "../static/images/grass-texture.jpg";
+import flameTexture from "../static/images/flames.jpg";
 import dragonModel from "../static/models/dracoDragon.gltf";
 import "../sass/style.scss";
 import "../static/html/index.html";
@@ -30,7 +31,8 @@ let stats;
 let controls;
 let loader;
 let dracoLoader;
-
+let texture;
+let loadedModel;
 //Shader Particle Engine Variables
 let emitter, particleGroup;
 
@@ -75,10 +77,10 @@ function init() {
   mesh = new THREE.Mesh(geometry, material);
 
   // add the mesh to the scene object
-  scene.add(mesh);
+  // scene.add(mesh);
   console.log(mesh.rotation);
   // Create a directional light
-  const light = new THREE.DirectionalLight(0xffffff, 2.0);
+  const light = new THREE.DirectionalLight(0xffffff, 3.0);
 
   // move the light back and up a bit
   light.position.set(10, 10, 10);
@@ -92,33 +94,63 @@ function init() {
   var axesHelper = new THREE.AxesHelper(5);
   scene.add(axesHelper);
 
+  /*Load in metallic texture */
+  texture = new THREE.TextureLoader().load(brushMetalTexture);
+  texture.encoding = THREE.sRGBEncoding;
+  texture.flipY = false;
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
   /* Add in draco compressed dragon .gltf model*/
-  loader = new GLTFLoader();
-  dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath(dracoDecodePath);
-  // dracoLoader.preload();
-  loader.setDRACOLoader(dracoLoader);
-  console.log(dragonModel);
-  console.log(Image);
-  loader.load(
-    dragonModel,
-    function(gltf) {
-      gltf.scene.scale.set(0.08, 0.08, 0.08);
-      gltf.scene.rotation.set(0, Math.PI / 2, 0);
-      gltf.scene.position.set(3, 0, 0);
-      scene.add(gltf.scene);
-    },
-    // called while loading is progressing
-    function(xhr) {
-      if (xhr.lengthComputable) {
-        console.log("percent: " + (xhr.loaded / xhr.total) * 100);
-      }
-    },
-    // called when loading has errors
-    function(error) {
-      console.log("An error happened");
-    }
-  );
+  // loader = new GLTFLoader();
+  // dracoLoader = new DRACOLoader();
+  // dracoLoader.setDecoderPath(dracoDecodePath);
+  // // dracoLoader.preload();
+  // loader.setDRACOLoader(dracoLoader);
+  // console.log(dragonModel);
+  // console.log(Image);
+  // loader.load(
+  //   dragonModel,
+  //   function(gltf) {
+  //     loadedModel = gltf.scene;
+  //     // console.log(loadedModel);
+  //     loadedModel.traverse(function(child) {
+  //       if (child instanceof THREE.Mesh) {
+  //         //create a global var to reference later when changing textures
+  //         //apply texture
+  //         child.material.map = texture;
+  //         child.material.metalness = 1;
+  //         child.material.needsUpdate = true;
+  //         child.material.map.needsUpdate = true;
+  //       }
+  //     });
+  //     gltf.scene.scale.set(0.08, 0.08, 0.08);
+  //     gltf.scene.rotation.set(0, Math.PI / 2, 0);
+  //     gltf.scene.position.set(3, -0.5, 0);
+  //     scene.add(gltf.scene);
+  //   },
+  //   // called while loading is progressing
+  //   function(xhr) {
+  //     if (xhr.lengthComputable) {
+  //       console.log("percent: " + (xhr.loaded / xhr.total) * 100);
+  //     }
+  //   },
+  //   // called when loading has errors
+  //   function(error) {
+  //     console.log("An error happened");
+  //   }
+  // );
+  /*Apply new texture */
+  // console.log(loadedModel);
+  // loadedModel.traverse(function(child) {
+  //   if (child instanceof THREE.Mesh) {
+  //     //create a global var to reference later when changing textures
+  //     //apply texture
+
+  //     child.material.map = texture;
+  //     child.material.needsUpdate = true;
+  //     child.material.map.needsUpdate = true;
+  //   }
+  // });
 
   // remember to add the light to the scene
   scene.add(light);
@@ -138,7 +170,7 @@ function init() {
   // create a WebGLRenderer and set its width and height
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
-
+  renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.setPixelRatio(window.devicePixelRatio);
 
   // add the automatically created <canvas> element to the page
@@ -164,6 +196,7 @@ function update() {
   // mesh.rotation.y += 0.01;
   //Update tween in order to see animation
   TWEEN.update();
+  particleGroup.tick(clock.getDelta());
 }
 
 // render, or 'draw a still image', of the scene
@@ -188,7 +221,7 @@ function onWindowResize() {
 function initParticles() {
   particleGroup = new SPE.Group({
     texture: {
-      value: THREE.ImageUtils.loadTexture("../static/images/flames.jpg")
+      value: THREE.ImageUtils.loadTexture(flameTexture)
     }
   });
   emitter = new SPE.Emitter({
@@ -196,7 +229,7 @@ function initParticles() {
       value: 2
     },
     position: {
-      value: new THREE.Vector3(0, 0, -50),
+      value: new THREE.Vector3(0, 0, 0),
       spread: new THREE.Vector3(0, 0, 0)
     },
     acceleration: {
@@ -224,7 +257,7 @@ if (WEBGL.isWebGLAvailable()) {
   // Initiate function or other initializations here
   window.addEventListener("resize", onWindowResize);
   init();
-  //initParticles();
+  initParticles();
 } else {
   const warning = WEBGL.getWebGLErrorMessage();
   document.getElementById("three-container").appendChild(warning);

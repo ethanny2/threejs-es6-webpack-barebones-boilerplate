@@ -1,7 +1,7 @@
 /*eslint-disable */
 import * as THREE from "three";
+//global.THREE = require("three");
 
-export {SPE};
 
 /* shader-particle-engine 1.0.6
  *
@@ -84,12 +84,15 @@ var SPE = {
   valueOverLifetimeLength: 4
 };
 
+export { SPE };
+
+
 // Module loader support:
-if (typeof define === "function" && define.amd) {
-  define("spe", SPE);
-} else if (typeof exports !== "undefined" && typeof module !== "undefined") {
-  module.exports = SPE;
-}
+// if (typeof define === "function" && define.amd) {
+//   define("spe", SPE);
+// } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
+//   module.exports = SPE;
+// }
 
 /**
  * A helper class for TypedArrays.
