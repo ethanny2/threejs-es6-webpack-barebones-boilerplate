@@ -17,7 +17,7 @@ import { SPE } from "./vendor/SPE.js";
 import FireSfx from "../static/audio/fire_compressed.mp3";
 import jadeTexture from "../static/images/grass-texture.jpg";
 import flameTexture from "../static/images/lightning-texture.png";
-import dragonModel from "../static/models/dracoDragon.gltf";
+import dragonModel from "../static/models/dragon/dracoDragon.gltf";
 
 /* 
   Adding your style files and html files to webpacks dependency graph so it can be
@@ -56,30 +56,13 @@ function init() {
   stats.showPanel(0, 1, 2);
   document.getElementById("stats").appendChild(stats.dom);
 
-  // Setup loading manager and callbacks it uses
+  // Setup loading manager and callbacks it uses to control loading screen
   manager = new THREE.LoadingManager();
-  manager.onStart = function(url, itemsLoaded, itemsTotal) {
-    console.log(
-      "Started loading file: " +
-        url +
-        ".\nLoaded " +
-        itemsLoaded +
-        " of " +
-        itemsTotal +
-        " files."
-    );
-  };
   manager.onLoad = function() {
-    console.log("Loading Complete!");
+    const loadingScreen = document.getElementById("loader-wrap");
+    loadingScreen.classList.add("fade-out");
+    loadingScreen.addEventListener("transitionend", onTransitionEnd);
   };
-  manager.onProgress = function(url, itemsLoaded, itemsTotal) {
-    console.log(
-      // "Loading file: " +
-      //   url +
-      ".\nLoaded " + itemsLoaded + " of " + itemsTotal + " files."
-    );
-  };
-
   manager.onError = function(url) {
     console.log("There was an error loading " + url);
   };
@@ -126,7 +109,7 @@ function init() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
 
-  // Set up gltf loader with dracoloader instance inside
+  // Set up gltf loader with the manager to track model loading
   loader = new GLTFLoader(manager);
   dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath(dracoDecodePath);
@@ -152,7 +135,6 @@ function init() {
     },
     // called while loading is progressing
     function(xhr) {
-      // Doesn't currently work...
       if (xhr.lengthComputable) {
         console.log("percent: " + (xhr.loaded / xhr.total) * 100);
       }
@@ -191,12 +173,6 @@ function init() {
   controls.enabled = true;
   // start the fire audio clip and loop
   audioElem = createSound();
-  audioElem.play();
-  // stop the clip after 15 secs
-  setTimeout(() => {
-    audioElem.pause();
-  }, 1000 * 15);
-
   // start the animation loop
   renderer.setAnimationLoop(() => {
     stats.begin();
@@ -278,16 +254,27 @@ function initParticles() {
   particleGroup.addEmitter(emitter);
   scene.add(particleGroup.mesh);
 }
-
 function createSound() {
   let elem = new Audio(FireSfx);
   elem.loop = true;
   return elem;
 }
+function toggleSound() {
+  if (audioElem.paused) {
+    audioElem.play();
+  } else {
+    audioElem.pause();
+  }
+}
+
+function onTransitionEnd(event) {
+  event.target.remove();
+}
 
 /* https://threejs.org/docs/#manual/en/introduction/WebGL-compatibility-check */
 if (WEBGL.isWebGLAvailable()) {
   window.addEventListener("resize", onWindowResize);
+  document.getElementById("audioBtn").addEventListener("click", toggleSound);
   init();
   initParticles();
 } else {

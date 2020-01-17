@@ -4,8 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
-const CopyPlugin = require('copy-webpack-plugin');
-/* For convenience; denotes often used environment info */
+const CopyPlugin = require("copy-webpack-plugin");
 const entry = path.resolve(__dirname, "./src/js/index.js");
 const nodePath = path.resolve(__dirname, "./node_modules");
 
@@ -15,11 +14,11 @@ module.exports = {
     colors: true,
     env: true
   },
+  performance: { 
+    hints: false 
+  },
   entry: {
     main: entry
-    //https://webpack.js.org/concepts/entry-points/
-    //Bad practice to do this in webpack versions >4.0
-    // vendor: vendorEntry
   },
   output: {
     filename: "js/[name].bundle.js",
@@ -79,7 +78,7 @@ module.exports = {
             }
           }
         ]
-      },
+      }
     ]
   },
   plugins: [
@@ -88,38 +87,36 @@ module.exports = {
       filename: "index.html",
       template: "./src/static/html/index.html",
       favicon: "./src/static/images/favicons/favicon.ico",
-      // hash: true,
       inject: "head"
     }),
-    //Adds rel="preload" to fonts; best practice needs citation
+    //Adds rel="preload" to fonts;
     new PreloadWebpackPlugin({
       rel: "preload",
       as(entry) {
         if (/\.(woff|woff2|ttf|otf)$/.test(entry)) return "font";
       },
       fileWhitelist: [/\.(woff|woff2|ttf|otf)$/],
-      //Includes all assets; needs more clarification
+      //Includes all assets; even fonts loaded by file-loader
       include: "allAssets"
     }),
     //Adds defer to js scripts to speed load times.
-    //https://flaviocopes.com/javascript-async-defer/
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: "defer"
     }),
     new CopyPlugin([
-      { from:  path.resolve(__dirname, './src/js/vendor/draco'), to: 'js/vendor/draco' }
+      {
+        from: path.resolve(__dirname, "./src/js/vendor/draco"),
+        to: "js/vendor/draco"
+      }
     ])
   ],
   optimization: {
     runtimeChunk: "single",
-    // Vendor code hash (code that is not often changed) keeps its
-    // hash string across builds UNLESS the vendor code has changed.
-    // https://webpack.js.org/guides/caching/
     moduleIds: "hashed",
     splitChunks: {
       cacheGroups: {
-         // Extracts all .css files into a single css file
-         styles: {
+        // Extracts all .css files into a single css file
+        styles: {
           name: "styles",
           test: /\.css$/,
           chunks: "all",

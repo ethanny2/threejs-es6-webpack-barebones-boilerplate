@@ -76,7 +76,7 @@ module.exports = merge(common, {
     ]
   },
   devServer: {
-    contentBase:  path.join(__dirname, 'src/static'),
+    contentBase: path.join(__dirname, "src/static"),
     compress: true,
     hot: true,
     port: 9000
@@ -95,7 +95,7 @@ module.exports = merge(common, {
           name: "vendor",
           chunks: "all",
           reuseExistingChunk: true
-        },
+        }
       }
     }
   }

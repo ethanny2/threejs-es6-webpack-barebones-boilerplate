@@ -14,7 +14,7 @@ module.exports = merge(common, {
   mode: "production",
   devtool: "cheap-module-eval-source-map",
   output: {
-    // Content hash used for cache bursting
+    // Contenthash substitution used for cache bursting
     filename: "js/[name].[contenthash].bundle.js",
     path: path.resolve(__dirname, "dist")
   },
@@ -45,6 +45,7 @@ module.exports = merge(common, {
           }
         }
       },
+      // Loads all font files
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         use: {
@@ -68,6 +69,7 @@ module.exports = merge(common, {
           }
         }
       },
+      // loads all html files
       {
         test: /\.(html)$/,
         use: {
@@ -119,8 +121,6 @@ module.exports = merge(common, {
       maxInitialRequests: Infinity,
       minSize: 0,
       cacheGroups: {
-        /* https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758
-      chunk all node modules and only trigger download on change in production. */
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           reuseExistingChunk: true,

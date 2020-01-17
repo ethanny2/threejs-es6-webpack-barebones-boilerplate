@@ -1,9 +1,8 @@
 
-$backgroundColor: #1d1b1b; 
-
+$backgroundColor: #8fbcd4; 
 @font-face {
     font-family: 'wedgieregular';
-    //Fonts imported by Webpack
+    //Fonts imported by file-loader
     src: url('../static/fonts/wedgie_regular-webfont.woff2') format('woff2'),
          url('../static/fonts/wedgie_regular-webfont.woff') format('woff');
     font-weight: normal;
@@ -17,7 +16,8 @@ body {
 }
 
 body{
-    color: orange;
+    color: white;
+    background-color: $backgroundColor;
     font-family:  'wedgieregular', sans-serif;
     text-align: center;
     margin: 0px;
@@ -26,7 +26,7 @@ body{
 
 #three-container{
     position: absolute;
-    top:0px;
+    top:0;
     left:0;
     width: 100%;
     height: 100%;
@@ -38,3 +38,92 @@ body{
     left:0;
 }
 
+#audioBtn{
+    font-family:  'Georgia', sans-serif;
+    position: absolute;
+    z-index:1;
+    right:0;
+    top:0;
+    border-radius: 3px;
+    font-size:1em;
+}
+
+/*Loader from https://codepen.io/ZyrianovViacheslav/pen/wWVrLQ */
+
+#loader-wrap.fade-out{
+    opacity:0;
+}
+
+#loader-wrap{
+	position: absolute;
+	left: 0;right: 0;top: 0;bottom: 0;
+	margin: auto;
+    background-color: black;
+    z-index:2;
+    transition: 1s opacity;
+}
+
+.loader{
+    z-index:2;
+	$loader-size: 8;
+	$animation-duration: 2s;
+	$animation-speed: 10;
+	$animation-scale: 1.4;
+	$loader-color: #ffffff;
+	$loader-text-color: #ffffff;
+	$loader-font-family: 'Arial';
+	
+	position: absolute;
+	left: 0;right: 0;top: 0;bottom: 0;
+	margin: auto;
+	height: ($loader-size*10px);
+	width: ($loader-size*20px);
+	box-sizing: border-box;
+	
+	.loader-item{
+		position: relative;
+		float: left;
+		height: ($loader-size*10px);
+		width: ($loader-size*1px);
+		margin: 0 ($loader-size/2)*1px;
+		background-color: $loader-color;
+		
+		@for $i from 1 through 10 {
+			&:nth-child(#{$i}){
+				animation: loader-item-#{$i} $animation-duration linear infinite;
+			}	
+		}		
+		
+	}
+	
+	&:after{
+		content: 'Loading...';
+		font-size: ($loader-size*4px);
+		font-family: $loader-font-family;
+		color: $loader-text-color;
+		text-align: center;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: ($loader-size*-8px);
+		margin: auto;
+	}
+	
+	@for $i from 0 through 9 {
+		@keyframes loader-item-#{$i+1}{
+			#{$i+1+$i*5 * 1%}{
+			  transform: scaleY(1);
+			}
+			#{$i+1+$i*5+$animation-speed * 1%}{
+				transform: scaleY($animation-scale);
+			}
+			#{$i+1+$i*5+$animation-speed*2 * 1%}{
+				transform: scaleY(1);
+			}
+			100%{
+				transform: scaleY(1);
+			}
+		}	
+	}
+
+}
