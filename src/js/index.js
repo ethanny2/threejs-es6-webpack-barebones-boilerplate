@@ -1,27 +1,34 @@
 import * as THREE from "three";
-//global.THREE = require("three");
-const path = require("path");
 import TWEEN from "@tweenjs/tween.js";
-import "promise-polyfill/src/polyfill";
 import { WEBGL } from "three/examples/jsm/WebGL.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as Stats from "stats.js";
+import "promise-polyfill/src/polyfill";
+/* 
+  Do not use/import the SPE node_module as it doesn't properly work without three in the global scope
+*/
 import { SPE } from "./vendor/SPE.js";
-//Importing static assets for use
-// import FireSfx from "../static/audio/fire_compressed.mp3";
-import brushMetalTexture from "../static/images/grass-texture.jpg";
-import flameTexture from "../static/images/flames.jpg";
+
+/* 
+  Importing static assets for use in your .js file
+*/
+import FireSfx from "../static/audio/fire_compressed.mp3";
+import jadeTexture from "../static/images/grass-texture.jpg";
+import flameTexture from "../static/images/lightning-texture.png";
 import dragonModel from "../static/models/dracoDragon.gltf";
+
+/* 
+  Adding your style files and html files to webpacks dependency graph so it can be
+  parsed by loaders 
+*/
 import "../sass/style.scss";
 import "../static/html/index.html";
 
-//To enable caching across all loaders that use FileLoader, set
+// To enable caching across all loaders that use FileLoader
 THREE.Cache.enabled = true;
 
-/*Threejs Vars */
-// these need to be accessed inside more than one function so we'll declare them
 let container;
 let camera;
 let renderer;
@@ -32,151 +39,163 @@ let controls;
 let loader;
 let dracoLoader;
 let texture;
-let loadedModel;
-//Shader Particle Engine Variables
 let emitter, particleGroup;
-
-/* TweenjS vars */
-//const easing = TWEEN.Easing.Quadratic.Out;
+let audioElem;
+let manager;
 const duration = 8000;
 let cubeRotateTweenA;
-//Used in cubeRotateTweenA to perform a full rotation from 0.
+// Used in cubeRotateTweenA to perform a full rotation from 0.
 const rotateCoords = new THREE.Vector3(Math.PI, Math.PI, Math.PI);
 const clock = new THREE.Clock();
+// path to draco decoding files; necessary to use DracoLoader
 const dracoDecodePath = "./js/vendor/draco/";
+
 function init() {
+  // Create stats for performance monitoring
   stats = new Stats();
-  // 0: fps, 1: ms, 2: mb
   stats.showPanel(0, 1, 2);
   document.getElementById("stats").appendChild(stats.dom);
 
+  // Setup loading manager and callbacks it uses
+  manager = new THREE.LoadingManager();
+  manager.onStart = function(url, itemsLoaded, itemsTotal) {
+    console.log(
+      "Started loading file: " +
+        url +
+        ".\nLoaded " +
+        itemsLoaded +
+        " of " +
+        itemsTotal +
+        " files."
+    );
+  };
+  manager.onLoad = function() {
+    console.log("Loading Complete!");
+  };
+  manager.onProgress = function(url, itemsLoaded, itemsTotal) {
+    console.log(
+      // "Loading file: " +
+      //   url +
+      ".\nLoaded " + itemsLoaded + " of " + itemsTotal + " files."
+    );
+  };
+
+  manager.onError = function(url) {
+    console.log("There was an error loading " + url);
+  };
+
   // Get a reference to the container element that will hold our scene
   container = document.querySelector("#three-container");
-
-  // create a Scene
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x8fbcd4);
-  // set up the options for a perspective camera
-  const fov = 35; // fov = Field Of View
+
+  // every object is initially created at ( 0, 0, 0 )
+  // we'll move the camera back a bit so that we can view the scene
+  const fov = 35;
   const aspect = container.clientWidth / container.clientHeight;
   const near = 0.1;
   const far = 100;
   camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
-  // every object is initially created at ( 0, 0, 0 )
-  // we'll move the camera back a bit so that we can view the scene
   camera.position.set(0, 0, 10);
 
-  // create a geometry
+  // create the cube mesh
   const geometry = new THREE.BoxBufferGeometry(2, 2, 2);
-
-  // create a purple Standard material
   const material = new THREE.MeshStandardMaterial({ color: 0x800080 });
-
-  // create a Mesh containing the geometry and material
   mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
 
-  // add the mesh to the scene object
-  // scene.add(mesh);
-  console.log(mesh.rotation);
   // Create a directional light
   const light = new THREE.DirectionalLight(0xffffff, 3.0);
-
-  // move the light back and up a bit
   light.position.set(10, 10, 10);
+  scene.add(light);
 
-  /*Add helper grid */
+  // Add helper grid
   var gridHelper = new THREE.GridHelper(20, 20);
   gridHelper.position.set(0, -2, 0);
   scene.add(gridHelper);
 
-  /* Add helper axis*/
+  // Add helper axis
   var axesHelper = new THREE.AxesHelper(5);
   scene.add(axesHelper);
 
-  /*Load in metallic texture */
-  texture = new THREE.TextureLoader().load(brushMetalTexture);
+  // Load in a texture for the dragon model
+  texture = new THREE.TextureLoader().load(jadeTexture);
+  // these settings are needed to correctly apply a texture to a .gLTF model
   texture.encoding = THREE.sRGBEncoding;
   texture.flipY = false;
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  /* Add in draco compressed dragon .gltf model*/
-  // loader = new GLTFLoader();
-  // dracoLoader = new DRACOLoader();
-  // dracoLoader.setDecoderPath(dracoDecodePath);
-  // // dracoLoader.preload();
-  // loader.setDRACOLoader(dracoLoader);
-  // console.log(dragonModel);
-  // console.log(Image);
-  // loader.load(
-  //   dragonModel,
-  //   function(gltf) {
-  //     loadedModel = gltf.scene;
-  //     // console.log(loadedModel);
-  //     loadedModel.traverse(function(child) {
-  //       if (child instanceof THREE.Mesh) {
-  //         //create a global var to reference later when changing textures
-  //         //apply texture
-  //         child.material.map = texture;
-  //         child.material.metalness = 1;
-  //         child.material.needsUpdate = true;
-  //         child.material.map.needsUpdate = true;
-  //       }
-  //     });
-  //     gltf.scene.scale.set(0.08, 0.08, 0.08);
-  //     gltf.scene.rotation.set(0, Math.PI / 2, 0);
-  //     gltf.scene.position.set(3, -0.5, 0);
-  //     scene.add(gltf.scene);
-  //   },
-  //   // called while loading is progressing
-  //   function(xhr) {
-  //     if (xhr.lengthComputable) {
-  //       console.log("percent: " + (xhr.loaded / xhr.total) * 100);
-  //     }
-  //   },
-  //   // called when loading has errors
-  //   function(error) {
-  //     console.log("An error happened");
-  //   }
-  // );
-  /*Apply new texture */
-  // console.log(loadedModel);
-  // loadedModel.traverse(function(child) {
-  //   if (child instanceof THREE.Mesh) {
-  //     //create a global var to reference later when changing textures
-  //     //apply texture
 
-  //     child.material.map = texture;
-  //     child.material.needsUpdate = true;
-  //     child.material.map.needsUpdate = true;
-  //   }
-  // });
+  // Set up gltf loader with dracoloader instance inside
+  loader = new GLTFLoader(manager);
+  dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath(dracoDecodePath);
+  loader.setDRACOLoader(dracoLoader);
 
-  // remember to add the light to the scene
-  scene.add(light);
+  // Load the dracoCompressed .gLTF model
+  loader.load(
+    dragonModel,
+    function(gltf) {
+      // apply texture loaded via traverse()
+      gltf.scene.traverse(function(child) {
+        if (child instanceof THREE.Mesh) {
+          //child.material is an instance of MeshStandardMaterial
+          child.material.map = texture;
+          child.material.metalness = 1;
+        }
+      });
+      // resize and move model, face dragon toward screen
+      gltf.scene.scale.set(0.08, 0.08, 0.08);
+      gltf.scene.rotation.set(0, Math.PI / 2, 0);
+      gltf.scene.position.set(3, -0.5, 0);
+      scene.add(gltf.scene);
+    },
+    // called while loading is progressing
+    function(xhr) {
+      // Doesn't currently work...
+      if (xhr.lengthComputable) {
+        console.log("percent: " + (xhr.loaded / xhr.total) * 100);
+      }
+    },
+    // called when loading has errors
+    function(error) {
+      console.log("An error occured loading gltf model: " + error);
+    }
+  );
 
-  //Initialize the rotation tween from 0deg to 360deg
+  // Initialize the rotation tween from 0deg to 360deg
   cubeRotateTweenA = new TWEEN.Tween(mesh.rotation)
     .to(rotateCoords, duration)
     .easing(TWEEN.Easing.Linear.None)
-    .onUpdate(obj => {
-      //Not needed!
-      // three.js renderer will look at the object's properties before
-      //rendering,you don't need to use an explicit onUpdate callback.
+    .onUpdate(() => {
+      /* 
+        Not needed to implement;
+        three.js renderer will look at all Object3D instances and their properties before
+        rendering,you don't need to use an explicit onUpdate callback to increment the rotation.
+      */
     });
   // Start the tween
   cubeRotateTweenA.start();
   cubeRotateTweenA.repeat(Infinity);
+
   // create a WebGLRenderer and set its width and height
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.setPixelRatio(window.devicePixelRatio);
-
   // add the automatically created <canvas> element to the page
   container.appendChild(renderer.domElement);
-  //Set up orbit controls
+
+  // set up orbit controls
   controls = new OrbitControls(camera, renderer.domElement);
+  controls.enabled = true;
+  // start the fire audio clip and loop
+  audioElem = createSound();
+  audioElem.play();
+  // stop the clip after 15 secs
+  setTimeout(() => {
+    audioElem.pause();
+  }, 1000 * 15);
 
   // start the animation loop
   renderer.setAnimationLoop(() => {
@@ -190,12 +209,14 @@ function init() {
 // perform any updates to the scene, called once per frame
 // avoid heavy computation here
 function update() {
-  // increase the mesh's rotation each frame
-  // mesh.rotation.z += 0.01;
-  // mesh.rotation.x += 0.01;
-  // mesh.rotation.y += 0.01;
-  //Update tween in order to see animation
+  // Update tween in order to see rotation animation
+  // OR just increment the rotation manually
   TWEEN.update();
+  /*
+  mesh.rotation.z += 0.01;
+  mesh.rotation.x += 0.01;
+  mesh.rotation.y += 0.01;
+  */
   particleGroup.tick(clock.getDelta());
 }
 
@@ -221,16 +242,19 @@ function onWindowResize() {
 function initParticles() {
   particleGroup = new SPE.Group({
     texture: {
-      value: THREE.ImageUtils.loadTexture(flameTexture)
-    }
+      value: new THREE.TextureLoader().load(flameTexture)
+    },
+    blending: THREE.AdditiveBlending,
+    fog: true,
+    maxParticleCount: 10000
   });
   emitter = new SPE.Emitter({
     maxAge: {
       value: 2
     },
     position: {
-      value: new THREE.Vector3(0, 0, 0),
-      spread: new THREE.Vector3(0, 0, 0)
+      value: new THREE.Vector3(-3, 0, 0),
+      spread: new THREE.Vector3(0, 3, 0)
     },
     acceleration: {
       value: new THREE.Vector3(0, -10, 0),
@@ -238,10 +262,13 @@ function initParticles() {
     },
     velocity: {
       value: new THREE.Vector3(0, 25, 0),
-      spread: new THREE.Vector3(10, 7.5, 10)
+      spread: new THREE.Vector3(5, 7.5, 10)
     },
     color: {
-      value: [new THREE.Color("orange"), new THREE.Color("red")]
+      value: [new THREE.Color(0xfd2525), new THREE.Color(0xff3f0b)]
+    },
+    wiggle: {
+      spread: 3
     },
     size: {
       value: 1
@@ -252,9 +279,14 @@ function initParticles() {
   scene.add(particleGroup.mesh);
 }
 
+function createSound() {
+  let elem = new Audio(FireSfx);
+  elem.loop = true;
+  return elem;
+}
+
 /* https://threejs.org/docs/#manual/en/introduction/WebGL-compatibility-check */
 if (WEBGL.isWebGLAvailable()) {
-  // Initiate function or other initializations here
   window.addEventListener("resize", onWindowResize);
   init();
   initParticles();
