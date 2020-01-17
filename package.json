@@ -11,8 +11,8 @@
     "build": " npm run clean && webpack --config webpack.prod.js",
     "build-dll": "webpack --config webpack.vendor.config.js",
     "start-dev": "webpack-dev-server --open --config webpack.dev.js",
-    "compress-test": "gltf-pipeline -i ./src/static/models/dragon/scene.gltf -o ./src/static/models/dragon/dracoDragon.gltf -d",
-    "compress-test2": "gltf-pipeline -i ./src/static/models/dragon/scene.gltf -o ./src/static/models/dragon/scene.glb"
+    "compress-draco": "gltf-pipeline -i ./src/static/models/dragon/scene.gltf -o ./src/static/models/dragon/dracoDragon.gltf -d",
+    "compress-glb": "gltf-pipeline -i ./src/static/models/dragon/scene.gltf -o ./src/static/models/dragon/scene.glb"
   },
   "repository": {
     "type": "git",
