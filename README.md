@@ -51,6 +51,7 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 |-- .browserslistrc
 |-- .gitignore
 |--  robots.txt
+|--  .travis.yml
 ```
 
 # Usage/NPM Scripts
