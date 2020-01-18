@@ -1,8 +1,8 @@
 {
   "name": "threejs-es6-webpack-boilerplate",
   "version": "1.0.0",
-  "private": true,
-  "description": "N/A",
+  "author": "Ethan Soo Hon",
+  "description": "Boilerplate for threejs es6 webpack workflow",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist/*",
@@ -21,7 +21,6 @@
   "keywords": [
     "Threejs"
   ],
-  "author": "Ethan Soo Hon",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate/issues"

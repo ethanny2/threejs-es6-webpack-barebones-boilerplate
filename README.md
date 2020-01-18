@@ -7,24 +7,25 @@
 
 ## About
 
-**This project was created to provide a good starting point for learners who are new to [webpack](https://webpack.js.org/), javascript bundlers, and
-[threejs](https://threejs.org/)**. I wanted to create an optimal development and production environment that was simple to understand and hassle-free to set up for experts and novices alike. Project key points:
+**This project was created to provide a good starting point for learners who are new to [webpack](https://webpack.js.org/), JavaScript bundlers, and
+[three.js](https://threejs.org/)**. I wanted to create an optimal development and production environment that was simple to understand and hassle-free to set up for experts and novices alike. Project key points:
 
-1. Unobtrusive - No unecessary abstractions or imposed design patterns. Quickly get a threejs project up and running.
+1. Unobtrusive - No unnecessary abstractions or imposed design patterns. Quickly get a three.js project up and running.
 
-2. Beginner Friendly - Well documented with numerous explainations of concepts and of code.
+2. Beginner Friendly - Well documented with numerous explanations of concepts and of code.
 
-3. Static Site Workflow - This boilerplate provides a streamlined workflow and configuration that also works well for making static sites without threejs.
+3. Static Site Workflow - This boilerplate provides a streamlined workflow and configuration that also works well for making static sites without three.js.
 
 ## Prerequisites
 
 To install and run this boilerplate you must have and [node.js](https://nodejs.org/) and [git](https://git-scm.com/) on your computer before running.
 
-# Project Structure :open_file_folder:
+# Project Structure 
+:open_file_folder:
 
 ```
 |-- dist --> Build output files; where files are built for production
-|-- src  --> Source files; where you do developement
+|-- src  --> Source files; where you do development
     |-- js
     |   |-- index.js --> Singular entry point for webpack
     |   |-- scripts  --> Any supplementary scripts or entry points go here
@@ -52,7 +53,8 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 |--  robots.txt
 ```
 
-# Usage/NPM Scripts :scroll:
+# Usage/NPM Scripts
+ :scroll:
 
 ## Installation steps:
 
@@ -76,7 +78,7 @@ Runs the npm [eslint](https://www.npmjs.com/package/eslint) package on the curre
  "lint": "eslint ."
 ```
 
-Runs ESlint on the current directory again, but this time fixable errors (errors that have to do with formatting rules) are fixed and saved. _Errors that deal with code quality (e.g unused variables, implict global variables) musted be fixed manually_.
+Runs ESlint on the current directory again, but this time fixable errors (errors that have to do with formatting rules) are fixed and saved. _Errors that deal with code quality (e.g unused variables, implicit global variables) must be fixed manually_.
 
 ```
 "lint-fix": "eslint --fix ."
@@ -88,7 +90,7 @@ Sequentially runs the clean script then specifies the configuration file (--conf
  "build": " npm run clean && webpack --config webpack.prod.js"
 ```
 
-Starts a live reloading development  server at localhost:9000. Hot module reloading is enabled for changes in any .css/.sass/.scss file. **Both the development and production configs both produce identical file structures in the dist directory, but the output files for development  are not written to disk, they are serverd from memory for better speed**. This is why the dist directory appears empty when in the developement environment.
+Starts a live reloading development  server at localhost:9000. Hot module reloading is enabled for changes in any .css/.sass/.scss file. **Both the development and production configs both produce identical file structures in the dist directory, but the output files for development  are not written to disk, they are served from memory for better speed**. This is why the dist directory appears empty when in the development environment.
 To stop the server press CTRL+C on Windows or CMD+C on Macs.
 
 ```
@@ -113,7 +115,7 @@ Example using [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipe
 - [Configuration and Utility Files](#configuration-and-utility-files)
 - [Development Environment](#development-environment)
 - [Production Environment](#production-environment)
-- [Threejs Scene and Examples](#threejs-scene-and-examples)
+- [three.js Scene and Examples](#threejs-scene-and-examples)
 - [Learning Resources](#learning-resources)
 - [Credits](#credits)
 
@@ -121,26 +123,26 @@ Example using [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipe
 :speech_balloon:
 
 - [Polyfill](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill): Piece of code (js file in the context of the web) used to provide modern functionality to older browsers that don't natively support it.
-- [Javascript bundlers](https://medium.com/@gimenete/how-javascript-bundlers-work-1fc0d0caf2da): Tools that gather your javascript files and dependencies into (usually) one js file.
+- [JavaScript bundlers](https://medium.com/@gimenete/how-javascript-bundlers-work-1fc0d0caf2da): Tools that gather your javascript files and dependencies into (usually) one js file.
 - [webpack](https://webpack.js.org/):  A static module bundler for modern JavaScript applications. When webpack processes your application, it internally builds a dependency graph which maps every module your project needs and generates one or more bundles. 
 - [Transpilation](https://scotch.io/tutorials/javascript-transpilers-what-they-are-why-we-need-them): Type of compiler that takes source code written in a specific programming language and produces the equivalent source code in the same or a different programming language.
 - [Tree shaking](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking): Is a term (in the context of JavaScript) used to describe the removal of dead/unused code. Bundlers such as webpack and Rollup automatically remove dead code when bundling multiple JavaScript files.   
 - [gLTF](https://wiki.fileformat.com/3d/gltf/): A one-size fits all file format that stores 3D model information in a JSON format. This results in a reduction of the size of the 3D asset and the time needed to unpack those assets. (Format optimized for web)
 - [glb](https://wiki.fileformat.com/3d/glb/): A binary file format representation of 3D models saved in the GL Transmission Format (glTF). This binary format stores all of the .gLTF's assets (JSON, .bin, textures) in the binary blob.
 - [Draco compression](https://google.github.io/draco/): An open source library for compression and decompressing 3D assets.
-- [Threejs](https://github.com/mrdoob/three.js/): A 3D javascript library that abstracts obtuse webGL concepts into streamlined code base.
+- [Threejs](https://github.com/mrdoob/three.js/): A 3D JavaScript library that abstracts obtuse webGL concepts into streamlined code base.
 - [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API): A JavaScript API for rendering high-performance interactive 3D and 2D graphics within any compatible web browser without the use of plug-ins
 - [Minification](https://developer.mozilla.org/en-US/docs/Glossary/minification): The process of removing unnecessary or redundant data without affecting how a resource is processed by the browser 
 - [Production Environment](https://dev.to/flippedcoding/difference-between-development-stage-and-production-d0p): An environment that represents the finished website live on the internet. Usually this environment prioritizes minification, compression and optimization of assets to produce the best site.
 - [Development Environment](https://dev.to/flippedcoding/difference-between-development-stage-and-production-d0p): An environment that resides locally on your computer where you can test features and code. Usually has some mechanism in place to run the project on localhost with live reloading. 
 - [Loaders](https://webpack.js.org/concepts/): Community written packages that make it possible to add file types other than .js to webpack's dependency graph building
 - [Regular Expression](https://developer.mozilla.org/en-US/docs/Glossary/Regular_expression): Rules that govern which sequence of character come up in a search. (Also known as regex)
-- [Glob](https://gulpjs.com/docs/en/getting-started/explaining-globs): A string of literal and/or wildcard characters used to match filepaths. Globbing is the act of locating files on a filesystem using one or more globs.
+- [Glob](https://gulpjs.com/docs/en/getting-started/explaining-globs): A string of literal and/or wildcard characters used to match file paths. Globing is the act of locating files on a filesystem using one or more globs.
 - [CommonJS](https://flaviocopes.com/commonjs/): Standard module specification used in Node.js used to break JavaScript programs into smaller more managable pieces called modules. (e.g require(...) is the CommonJS format)
 - [ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules): Standard module specification used/supported by most modern browsers. webpack recognizes both CommonJS and ES Module syntax. 
 - [Script defer attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script): Boolean attribute set on script tags that indicates to a browser that the script is meant to be executed after the document has been parsed, but before firing DOMContentLoaded.
 - [Source maps](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map): A file that maps from the transformed source to the original source, enabling the browser to reconstruct the original source and present the reconstructed original in the debugger. (Babel/transpilation and minification are two examples of processes that transform your code)
-- [Vendor prefixes](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix): Prefixes specified by browser vendors to enable the use of experimental modern/cutting-edge CSS features. Developers should wait to include the unprefixed property until browser behavior is standardized
+- [Vendor prefixes](https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix): Prefixes specified by browser vendors to enable the use of experimental modern/cutting-edge CSS features. Developers should wait to include the un-prefixed property until browser behavior is standardized
 - [Chunk](https://webpack.js.org/guides/code-splitting/): A  name used by webpack to  represents a module of code that is the result code-splitting your program 
 - [Linter](https://sourcelevel.io/blog/what-is-a-linter-and-why-your-team-should-use-it): Is a tool that analyzes source code to flag programming errors, bugs, stylistic errors, and suspicious constructs
 - [Compression](https://developer.mozilla.org/en-US/docs/Web/HTTP/Compression): A method used in software development to decrease the size and redundancy of a particular file to make it more compact and efficient to serve over the web.
@@ -181,7 +183,7 @@ maintained node versions
 - **Warning** (1): ESLint prints warning to terminal if rule is broken
 - **Error** (2): ESLint creates an error and the program will not compile if this rule is broken
 
-In this configuration I set the rule "no-unused-vars" to 1, so it will warn if there are any unused variables but it will still allow my program to compile. "eslint linebreak-style" is a fix for Windows computers. Normally this eslint configuration will propagate an error everytime you hit the enter key on a computer running Windows because the enter key returns CRLF, whereas on UNIX environments hitting enter will just produce an LF character. This line supresses that error on Windows. [Read More](https://github.com/diegohaz/arc/issues/171)
+In this configuration I set the rule "no-unused-vars" to 1, so it will warn if there are any unused variables but it will still allow my program to compile. "eslint linebreak-style" is a fix for Windows computers. Normally this eslint configuration will propagate an error every time you hit the enter key on a computer running Windows because the enter key returns CRLF, whereas on UNIX environments hitting enter will just produce an LF character. This line supresses that error on Windows. [Read More](https://github.com/diegohaz/arc/issues/171)
 
 ```
 ...
@@ -192,11 +194,11 @@ In this configuration I set the rule "no-unused-vars" to 1, so it will warn if t
 ...
 ```
 
-While you could definately have ESLint handle both formatting styles and code-quality rules a very common configuration (and the one used by this project) is using ESLint in combination with another code formatter called [Prettier](https://prettier.io/). Prettier handles the formatting of your code, and ESlint handles the code-quality rules. You can read more about these rules at the following [link](https://prettier.io/docs/en/comparison.html).
+While you could definitely have ESLint handle both formatting styles and code-quality rules a very common configuration (and the one used by this project) is using ESLint in combination with another code formatter called [Prettier](https://prettier.io/). Prettier handles the formatting of your code, and ESlint handles the code-quality rules. You can read more about these rules at the following [link](https://prettier.io/docs/en/comparison.html).
 
 However if you have both ESLint and Prettier installed ESLint will attempt to both handle formatting styles and code-quality rules by default; this may led to an annoying situation where your prettier formatter is breaking your ESLint or vice-versa. In order to prevent this we use a combination of [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) and [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier).
 
-The extends fields allows you to use a predefined/shared set of ESlint rules from another configuration. This is where the majority of the ESLint rules come from as I have only explictly declared 2 rules as seen above. The order of this array is processed from right to left so it will gather rules from "plugin:prettier/recommended" first then extend/supplement that rule set with the rules found in "eslint:recommended". [Read more](https://stackoverflow.com/questions/46544082/it-this-the-correct-way-of-extending-eslint-rules)
+The extends fields allows you to use a predefined/shared set of ESlint rules from another configuration. This is where the majority of the ESLint rules come from as I have only explicity declared 2 rules as seen above. The order of this array is processed from right to left so it will gather rules from "plugin:prettier/recommended" first then extend/supplement that rule set with the rules found in "eslint:recommended". [Read more](https://stackoverflow.com/questions/46544082/it-this-the-correct-way-of-extending-eslint-rules)
 
 ```
 ...
@@ -207,7 +209,7 @@ extends: ["eslint:recommended","plugin:prettier/recommended"]
 
 ## postcss.config.js
 
-This configuration file is used by the [postcss-loader](https://github.com/postcss/postcss-loader) NPM package. Postcss-loader is a webpack loader that is used to transform your CSS while adding a number of benefical features such as increased readability, vendor-prefixes and polyfills. [Read more](https://postcss.org/)
+This configuration file is used by the [postcss-loader](https://github.com/postcss/postcss-loader) NPM package. Postcss-loader is a webpack loader that is used to transform your CSS while adding a number of beneficial features such as increased readability, vendor-prefixes and polyfills. [Read more](https://postcss.org/)
 
 In this case we want to add vendor-prefixes automatically to our CSS code so we specify the postcss-loader to use the [Autoprefixer](https://github.com/postcss/autoprefixer) in this configuration file.
 
@@ -226,7 +228,7 @@ Allow: /
 
 ## webpack.common.js
 
-webpack is a static module bundler for JavaScript applications. It uses configuration files to determine how to bundle your files and build its [dependency graph](https://webpack.js.org/concepts/dependency-graph/). As per the webpack documentation, it is best to have different files for both developement and production environment as the needs/goals of these builds greatly differ. Of course, in order to keep the config files as DRY as possible the files are separated into their respective environments and the settings shared between the two environments is placed in this common file. Later the settings from this file will be combined separately with both the dev and production config files through the use of [webpack-merge](https://github.com/survivejs/webpack-merge).
+webpack is a static module bundler for JavaScript applications. It uses configuration files to determine how to bundle your files and build its [dependency graph](https://webpack.js.org/concepts/dependency-graph/). As per the webpack documentation, it is best to have different files for both development and production environment as the needs/goals of these builds greatly differ. Of course, in order to keep the config files as DRY as possible the files are separated into their respective environments and the settings shared between the two environments is placed in this common file. Later the settings from this file will be combined separately with both the dev and production config files through the use of [webpack-merge](https://github.com/survivejs/webpack-merge).
 
 ### __Entry/Output__
 
@@ -243,14 +245,14 @@ output: {
 }
 ```
 
-Many people also specify an entry point for vendor code (nodeModules and other code) as well but according to the offical webpack documentation...
+Many people also specify an entry point for vendor code (nodeModules and other code) as well but according to the official webpack documentation...
 
 _In webpack version < 4 it was common to add vendors as a separate entry point to compile it as a separate file (in combination with the CommonsChunkPlugin).
 This is discouraged in webpack 4. Instead, the optimization.splitChunks option takes care of separating vendors and app modules and creating a separate file. Do not create an entry for vendors or other stuff that is not the starting point of execution._ [Read more](https://webpack.js.org/concepts/entry-points/)
 
 ### __Loaders and Rules__
 
-By default webpack is only able to create dependecy graphs and bundle JavaScript files; in order to load all your assets through webpack (images, audio, 3d models, css, html) we rely on the rich ecosystem of community written webpack loaders available on NPM. **Note: webpack loaders are evaluated from the bottom up. This means the last loader (furthest toward the bottom) specified in a particular ruleset is the first to run.**
+By default webpack is only able to create dependency graphs and bundle JavaScript files; in order to load all your assets through webpack (images, audio, 3d models, css, html) we rely on the rich ecosystem of community written webpack loaders available on NPM. **Note: webpack loaders are evaluated from the bottom up. This means the last loader (furthest toward the bottom) specified in a particular ruleset is the first to run.**
 
 In this a regular expression (in test) targets all .js files (except node_modules) in the project and runs it through these loaders. 
 + [eslint-loader](https://github.com/webpack-contrib/eslint-loader) lints all .js files 
@@ -331,7 +333,7 @@ Another feature of webpack that enables you to add new features to your build pr
 + fileName: is the name of the output file
 + template: is where to find the html template use as a base.
 + favicon: sets the favicon of the generated page. If you want more options to generate multiple favicons try the [favicons-webpack-plugin](https://www.npmjs.com/package/favicons-webpack-plugin). _Be aware including this plugin adds a lot of overhead to build times._
-+ inject: tells the plugin where to place the bundled Javascript files; in this case we place them in the head as opposed to right before the end of the body tag for performance gain reasons (in combination with the "defer" attribute on script tags).
++ inject: tells the plugin where to place the bundled JavaScript files; in this case we place them in the head as opposed to right before the end of the body tag for performance gain reasons (in combination with the "defer" attribute on script tags).
 ```
 new HtmlWebpackPlugin({
     title: "Threejs ES6 Simple Boilerplate",
@@ -342,7 +344,7 @@ new HtmlWebpackPlugin({
 }),
 //new HtmlWebpackPlugin({...}) to make more html pages 
 ```
-[preload-webpack-plugin](https://github.com/GoogleChromeLabs/preload-webpack-plugin) is a plugin that injects rel="preload" attributes into certain link tags created by the HtmlWebpackPlugin. This is used on fonts exclusively as they are most condusive to preload and support good user experience and preventing FOUC (flash of unstyled content/text). [Read more](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content).
+[preload-webpack-plugin](https://github.com/GoogleChromeLabs/preload-webpack-plugin) is a plugin that injects rel="preload" attributes into certain link tags created by the HtmlWebpackPlugin. This is used on fonts exclusively as they are most conducive to preload and support good user experience and preventing FOUC (flash of un-styled content/text). [Read more](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content).
 
 + rel: indicates what attribute we wish to add. (can also be prefetch)
 + fileWhiteList: array of values of which file types to whitelist. One regex is used to match all font file types.
@@ -375,7 +377,7 @@ To avoid the issue of duplicate code and dependencies webpack has a feature that
 
 *Side Note: In webpack < 4 there are already intelligent defaults in place for creating chunks that fit web performance best practices. [Learn more](https://webpack.js.org/plugins/split-chunks-plugin/)
 #### Caching
-Once your site has been deployed to a server a common technique is to add a hash within the file name (e.g script.7e2c49a622975ebd9b7e.js) and then change the hash value _ONLY IF_ the contents of the file changed. This ensures the visitor will only donwload files that change from build to build and have the rest served from their cache for better performance. This is a process known as _cache-busting_ and is very easy to configure and use in webpack 4. In combination with code splitting this is a very powerful tool to keep your live site fast for returning visitors. [Read more](https://webpack.js.org/guides/caching/)
+Once your site has been deployed to a server a common technique is to add a hash within the file name (e.g script.7e2c49a622975ebd9b7e.js) and then change the hash value _ONLY IF_ the contents of the file changed. This ensures the visitor will only download files that change from build to build and have the rest served from their cache for better performance. This is a process known as _cache-busting_ and is very easy to configure and use in webpack 4. In combination with code splitting this is a very powerful tool to keep your live site fast for returning visitors. [Read more](https://webpack.js.org/guides/caching/)
 
 
 #### Output substitutions
@@ -388,7 +390,7 @@ To automatically generate unique hashes for files webpack uses a feature called 
 [hash vs contenthash vs chunkhash](https://medium.com/@sahilkkrazy/hash-vs-chunkhash-vs-contenthash-e94d38a32208)
 
 
-webpack has a default behavior that will change the [contenthash] even when nothing in that particular file has changed. This is because everytime you build webpack generates an unique piece of code that contains the manifest and the runtime environment responsible for linking the code together. If left on this means that the end-user will ultimately redownload whole files even when the content is identical to the one in their cache. In order to prevent this we use the following settings
+webpack has a default behavior that will change the [contenthash] even when nothing in that particular file has changed. This is because every time you build webpack generates an unique piece of code that contains the manifest and the runtime environment responsible for linking the code together. If left on this means that the end-user will ultimately redownload whole files even when the content is identical to the one in their cache. In order to prevent this we use the following settings
 + runtimeChunk:"single" -> Tells webpack to take the runtime code needed build project and offload it into a runtime .js file so on subsequent builds if no content changed their contenthashes will remain the same.
 + moduleIds:"hashed" -> Without this option set webpack will increment the module.id field of each all chunks when a build is triggered; this often leads to the vendor/node_modules folder chunk changing its contenthash value (even though no vendor code was changed or added) and triggering a large redownload of data for the user. 
 + splitChunks: In conjunction with cacheGroups is how to perform chunking in webpack. In the example below I name a chunk styles and target all .css via a regex.
@@ -459,7 +461,7 @@ new MiniCssExtractPlugin({
 })
 ```
 ### __Optimizations__ 
-The node_modules folder is separated and chunked into a group called vendor to prevent redownload. This is done by deafult in webpack 4 but included for clarity's sake.
+The node_modules folder is separated and chunked into a group called vendor to prevent redownload. This is done by default in webpack 4 but included for clarity's sake.
 
 ```
 ...
@@ -477,7 +479,7 @@ cacheGroups: {
 # Production Environment
  :tada:
 ### __Overview__
-The production environment builds to dist/. There are a number of optimization in place that help produce the fastest most efficient production site such as... compression of image files, minification of .html, .js , .css files, gzip compression of all files, and automatic removal of unsued css styles through out the whole project. Each file is output with a [contenthash] substitution in order to facilitate proper hashing on file names that only change if a particular file's content does.
+The production environment builds to dist/. There are a number of optimization in place that help produce the fastest most efficient production site such as... compression of image files, minification of .html, .js , .css files, gzip compression of all files, and automatic removal of unused css styles through out the whole project. Each file is output with a [contenthash] substitution in order to facilitate proper hashing on file names that only change if a particular file's content does.
 
 ### __Loaders__
 + [file-loader](https://webpack.js.org/loaders/file-loader/): Loads in the same manner as the development environment and is used to include most static assets including images, html files, fonts, 3D models and audio. Add to the regex to suit your own needs.
@@ -525,7 +527,7 @@ new ImageminPlugin({
 })
 ```
 + [purgecss-webpack-plugin](https://www.npmjs.com/package/purgecss-webpack-plugin): [Purgecss](https://www.purgecss.com/) is a tool that detects any unused css code in your project and deletes it so you are not serving unnecessary styles; this is particularly helpful when using a styling framework like Bootstrap that includes a lot of extraneous code.
-  + paths: Is used in conjunction with [glob](https://www.npmjs.com/package/glob) to specify a partern the searches the entire project for css to potentially delete.
+  + paths: Is used in conjunction with [glob](https://www.npmjs.com/package/glob) to specify a pattern that searches the entire project for css to potentially delete.
 ```
  new PurgecssPlugin({
     paths: glob.sync("src/**/*", { nodir: true })
@@ -573,19 +575,19 @@ cacheGroups: {
 ```
 
 
-# Threejs Scene and Examples
+# three.js Scene and Examples
  :three:
 
 ## Basic Scene Setup 
-There are already a number of good resources detailing how to setup a basic Threejs scene. In this project I used [discoverthreejs.com](https://discoverthreejs.com/book/first-steps/first-scene/)'s code to create the scene and cube mesh. Similarly the [offical threejs documentation](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) has a great guide for setting up a scene. For beginners I recommend reading both.
+There are already a number of good resources detailing how to setup a basic three.js scene. In this project I used [discoverthreejs.com](https://discoverthreejs.com/book/first-steps/first-scene/)'s code to create the scene and cube mesh. Similarly the [offical three.js documentation](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) has a great guide for setting up a scene. For beginners I recommend reading both.
 
 ## Imports
 At the top of the file is where you import all dependencies and vendor code you need in your program. webpack is able to recognize a wide variety of different module formats (AMD, CommonJS etc...) but for source files I choose ES2015 module syntax.
 ### Library/Vendor Code 
-_Note: Since the threejs npm package is based on the module version many features must be explictly exported to be used as they are not included in the main module file._ These are features are found in the node_modules/three/examples/... path. Many tutorials online are written using the non-module version of Threejs where loaders where included under the THREE namespace (e.g THREE.GLTFLoader(...)), so if there is an error always check if you imported the specific component first.
+_Note: Since the three.js npm package is based on the module version many features must be explicitly exported to be used as they are not included in the main module file._ These are features are found in the node_modules/three/examples/... path. Many tutorials online are written using the non-module version of three.js where loaders where included under the THREE namespace (e.g THREE.GLTFLoader(...)), so if there is an error always check if you imported the specific component first.
 [Read more](https://threejs.org/docs/#manual/en/introduction/Import-via-modules)
 
-Internally the [GLTFLoader](https://threejs.org/docs/#examples/en/loaders/GLTFLoader) and [DRACOLoader](https://threejs.org/docs/#examples/en/loaders/DRACOLoader) rely on ES6 promises to work. The promise polyfil is included to support these loaders on IE11.
+Internally the [GLTFLoader](https://threejs.org/docs/#examples/en/loaders/GLTFLoader) and [DRACOLoader](https://threejs.org/docs/#examples/en/loaders/DRACOLoader) rely on ES6 promises to work. The promise polyfill is included to support these loaders on IE11.
 
 ```
 import * as THREE from "three";
@@ -616,7 +618,7 @@ now in index.html ... the src attribute of img tags are able to be replaced by h
 <img src="../images/flame-texture.png" />
 ```
 ## Loading Screen
-Loaders in Threejs load models asynchronously. This means that the other components of the scene are not blocked by the loading of a model. However, loading a 3D model may take some time and a solution many sites opt for is to display a loading screen until the model is fully loaded. The loading screen code from this boilerplate is from the [Threejs forum](https://discourse.threejs.org/t/basic-loading-screen/2332) and the loading animation is from [this codepen](https://codepen.io/ZyrianovViacheslav/pen/wWVrLQ). There are 3 step when creating a loading screen in Threejs:
+Loaders in three.js load models asynchronously. This means that the other components of the scene are not blocked by the loading of a model. However, loading a 3D model may take some time and a solution many sites opt for is to display a loading screen until the model is fully loaded. The loading screen code from this boilerplate is from the [three.jsforum](https://discourse.threejs.org/t/basic-loading-screen/2332) and the loading animation is from [this codepen](https://codepen.io/ZyrianovViacheslav/pen/wWVrLQ). There are 3 step when creating a loading screen in three.js:
 1. Add the loading screen html markup and styles. Display the screen by default covering the entire viewport and scene.
    ```
     <div id="loader-wrap">
@@ -649,12 +651,12 @@ Loaders in Threejs load models asynchronously. This means that the other compone
     loadingScreen.addEventListener("transitionend", onTransitionEnd);
     };
    ```
-3. Pass the created manager instance into the contructor of your loader
+3. Pass the created manager instance into the constructor of your loader
    ```
    loader = new GLTFLoader(manager);
    ```
-## TweenJs + Threejs
-It is entirely possible to animate your Threejs scene by incrementing values in the update() function of the render loop.
+## Tween.js + three.js
+It is entirely possible to animate your three.js scene by incrementing values in the update() function of the render loop.
 ```
 function update() {
   mesh.rotation.z += 0.01;
@@ -662,7 +664,7 @@ function update() {
   mesh.rotation.y += 0.01;
 }
 ```
-This is good for simple animations but for a more robust animation experience Tweenjs is a library that pairs well with Threejs. A tween (from in-between) is a concept that allows you to change the values of the properties of an object in a smooth way. Tweenjs works well with Threejs because many of the Objects in your scene have their properties (Object3D .position, .rotation, .scale etc...) expressed via a Threejs class called [vector3](https://threejs.org/docs/#api/en/math/Vector3). 
+This is good for simple animations but for a more robust animation experience Tween.js is a library that pairs well with three.js. A tween (from in-between) is a concept that allows you to change the values of the properties of an object in a smooth way. Tween.js works well with three.js because many of the Objects in your scene have their properties (Object3D .position, .rotation, .scale etc...) expressed via a three.js class called [vector3](https://threejs.org/docs/#api/en/math/Vector3). 
 
 Tweens take in 3D vectors by default so we can easily animate the rotation or a similar property.
 + Here a tween is set on the cube's (called mesh) rotation. It is rotated over a course of 8s (duration = 8000) from the position (x:0, y:0, z:0) to (x:Math.PI, y:Math.PI, z:Math.PI) a full rotation. 
@@ -693,7 +695,7 @@ This boilerplate currently only supports the loading of 3D models that can be co
   
 [Read More about GLTF](https://www.khronos.org/files/gltf20-reference-guide.pdf)
   
-In webpack there really is not an elegant way to associate all 3 files with each other while having each of the files added to webpack's dependency graph. One soultion would be to just statically copy the necessary files using the [CopyWebpackplugin](https://webpack.js.org/plugins/copy-webpack-plugin/) and just reference them as static resources. This works but the assets are not added to the dependency graph which is the main feature for bundling these assets with webpack.
+In webpack there really is not an elegant way to associate all 3 files with each other while having each of the files added to webpack's dependency graph. One solution would be to just statically copy the necessary files using the [CopyWebpackplugin](https://webpack.js.org/plugins/copy-webpack-plugin/) and just reference them as static resources. This works but the assets are not added to the dependency graph which is the main feature for bundling these assets with webpack.
 
 Instead its better to just combine all the necessary files into a single file. For .gltf files they are able to be combined into a single .glb file which includes the textures and binary data for the .gltf model. Similarly compressing a .gltf file with Draco compression results in a single .gltf file that has the binary data and textures embedded into that single file. Because the .gltf format is optimized for the web _you should generally always be using .glb or draco compressed .gltf models_
 
@@ -720,7 +722,7 @@ _1.3MB!_
 dracoDragon.gltf(~1300kb) = 1300kb
 ```
 ### Loading a draco compressed .gltf
-In Threejs the draco loader is used for loading pure .drc (draco) files. In order to load a draco compressed .gtlf we need instances of both GLTFLoader and DRACOLoader.
+In three.js the draco loader is used for loading pure .drc (draco) files. In order to load a draco compressed .gtlf we need instances of both GLTFLoader and DRACOLoader.
 
 
 
@@ -765,11 +767,11 @@ gltf.scene.traverse(function(child) {
 });
 ```
 ### [Shader Particle Engine](http://squarefeet.github.io/ShaderParticleEngine/)
-Since Threejs doesn't have a native particle system implementation I included this particle library as good starting point for learning particles. This library is rather dated and a [rewrite](https://github.com/squarefeet/ShaderParticleEngine/issues/50) was in the works at one point... Running the engine will produce console warnings similar to
+Since three.js doesn't have a native particle system implementation I included this particle library as good starting point for learning particles. This library is rather dated and a [rewrite](https://github.com/squarefeet/ShaderParticleEngine/issues/50) was in the works at one point... Running the engine will produce console warnings similar to
 ```
 THREE.BufferAttribute: .dynamic has been deprecated. Use .usage instead
 ```
-but the core functionality of the particle system still works great. This library was intented to be included after Threejs as a script tag so that the THREE namespace would be in the global scope. This works well for the script tags, but **the npm package/build of SPE doesn't work as Three is no longer in the global scope**.
+but the core functionality of the particle system still works great. This library was intended to be included after three.js as a script tag so that the THREE namespace would be in the global scope. This works well for the script tags, but **the npm package/build of SPE doesn't work as Three is no longer in the global scope**.
 
 To solve this I just imported three into SPE.js and used ES2015 syntax to export the SPE class. So the module version of this library that works is located in src\js\vendor\SPE.js. This is the only file you need so you may remove the NPM dependency from package.json. 
 
@@ -779,7 +781,7 @@ That being said the library is open source and desperately in need a of ES6 rewr
 
 # Learning Resources 
 :books:
-### __Threejs__
+### __three.js__
 + [Threejs Resources Page](https://threejs.org/docs/#manual/en/introduction/Useful-links)
 + [Threejs in browser editor](https://threejs.org/editor/): Online app to experiment with Threejs
 + [Stanford 3D Scanning Repository](http://graphics.stanford.edu/data/3Dscanrep/): Free 3D models to experiment with
