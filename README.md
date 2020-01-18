@@ -1,6 +1,9 @@
 # threejs-webpack4-boilerplate
 
-![Boilerplate default scene](https://i.imgur.com/zEYnIWY.png)
+
+<p align="center">
+  <img width="500" height="300" src="https://media.giphy.com/media/STrpJCJfgDw2KuFjkj/giphy.gif">
+</p>
 
 ## About
 
@@ -15,7 +18,7 @@
 
 ## Prerequisites
 
-To install and run this boilerplate you must have and [node.js](https://nodejs.org/) and [git](https://git-scm.com/) installed your computer before running.
+To install and run this boilerplate you must have and [node.js](https://nodejs.org/) and [git](https://git-scm.com/) on your computer before running.
 
 # Project Structure :open_file_folder:
 
@@ -40,7 +43,6 @@ To install and run this boilerplate you must have and [node.js](https://nodejs.o
 |-- webpack.common.js
 |-- webpack.dev.js
 |-- webpack.prod.js
-|-- compressGltf.js
 |-- package-lock.json
 |-- package.json
 |-- postcss.config.js
@@ -93,23 +95,30 @@ To stop the server press CTRL+C on Windows or CMD+C on Macs.
  "start-dev": "webpack-dev-server --open --config webpack.dev.js"
 ```
 
-Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipeline) node api in order to apply [Draco Compression](https://google.github.io/draco/) to all .gLTF models that reside in the src/models. This results in a smaller single .gLTF file with textures included.
+Example using [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipeline) CLI and [Draco Compression](https://google.github.io/draco/) to compress a .gltf file 
+.This results in a smaller single .gLTF file with textures included. (Change args to compress new models)
 
 ```
- "compress": "node compressGltf.js"
+"compress-draco": "gltf-pipeline -i ./src/static/models/dragon/scene.gltf -o ./src/static/models/dragon/dracoDragon.gltf -d",
+```
+Example using [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipeline) CLI to convert a .gltf file to a .glb file. This results in a single .glb file but doesn't result in a file size reduction. (Change args to compress new models)
+```
+"compress-glb": "gltf-pipeline -i ./src/static/models/dragon/scene.gltf -o ./src/static/models/dragon/scene.glb"
 ```
 
-# Table of Contents :book:
+# Table of Contents
+:book: 
 
-- [Glossary](#Glossary)
-- [Configuration/Utility Files](tbd)
-- [Development Environment/webpack.dev.js](tdb)
-- [Production Environment/webpack.prod.js](tdb)
-- [Threejs Scene and Examples](tdb)
-- [Learning Resources](tdb)
-- [Credits](tbd)
+- [Glossary](#glossary)
+- [Configuration and Utility Files](#configuration-and-utility-files)
+- [Development Environment](#development-environment)
+- [Production Environment](#production-environment)
+- [Threejs Scene and Examples](#threejs-scene-and-examples)
+- [Learning Resources](#learning-resources)
+- [Credits](#credits)
 
-# Glossary :speech_balloon:
+# Glossary 
+:speech_balloon:
 
 - [Polyfill](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill): Piece of code (js file in the context of the web) used to provide modern functionality to older browsers that don't natively support it.
 - [Javascript bundlers](https://medium.com/@gimenete/how-javascript-bundlers-work-1fc0d0caf2da): Tools that gather your javascript files and dependencies into (usually) one js file.
@@ -140,7 +149,8 @@ Runs a script using the [gLTF Pipeline](https://github.com/AnalyticalGraphicsInc
 - [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/): Exchanges, adds, or removes modules while an application is running, without a full reload. This is particularly useful for a development environment where you can maintain application state while changing the application source.
 - [Tweening](https://www.webopedia.com/TERM/T/tweening.html): Short for in-betweening, the process of generating intermediate frames between two images to give the appearance that the first image evolves smoothly into the second image. (e.g Animation of an object/mesh from one position to another)
 
-# Configuration/Utility Files :wrench:
+# Configuration and Utility Files
+:wrench:
 
 ## .browserslistrc
 
@@ -162,13 +172,6 @@ not IE_Mob 11
 maintained node versions
 ```
 
-## compressGltf.js
-
-```
-//
-```
-
-TBD
 
 ## .eslintrc.js
 
@@ -409,7 +412,8 @@ optimization: {
 ...
 ```
 
-# Development Environment/webpack.dev.js :computer:
+# Development Environment
+:computer:
 ### __Overview__
 The development environment builds to dist/. It includes a development server with live-reload, loaders for static files, and basic chunking optimizations. Hashing is not needed instead files are output with this simple substitution [name].[ext]
 
@@ -470,7 +474,8 @@ cacheGroups: {
 ...
 ```
 
-# Production Environment/webpack.dev.js :tada:
+# Production Environment
+ :tada:
 ### __Overview__
 The production environment builds to dist/. There are a number of optimization in place that help produce the fastest most efficient production site such as... compression of image files, minification of .html, .js , .css files, gzip compression of all files, and automatic removal of unsued css styles through out the whole project. Each file is output with a [contenthash] substitution in order to facilitate proper hashing on file names that only change if a particular file's content does.
 
@@ -568,14 +573,215 @@ cacheGroups: {
 ```
 
 
-# Threejs Scene and Examples :three:
+# Threejs Scene and Examples
+ :three:
+
+## Basic Scene Setup 
+There are already a number of good resources detailing how to setup a basic Threejs scene. In this project I used [discoverthreejs.com](https://discoverthreejs.com/book/first-steps/first-scene/)'s code to create the scene and cube mesh. Similarly the [offical threejs documentation](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) has a great guide for setting up a scene. For beginners I recommend reading both.
+
+## Imports
+At the top of the file is where you import all dependencies and vendor code you need in your program. webpack is able to recognize a wide variety of different module formats (AMD, CommonJS etc...) but for source files I choose ES2015 module syntax.
+### Library/Vendor Code 
+_Note: Since the threejs npm package is based on the module version many features must be explictly exported to be used as they are not included in the main module file._ These are features are found in the node_modules/three/examples/... path. Many tutorials online are written using the non-module version of Threejs where loaders where included under the THREE namespace (e.g THREE.GLTFLoader(...)), so if there is an error always check if you imported the specific component first.
+[Read more](https://threejs.org/docs/#manual/en/introduction/Import-via-modules)
+
+Internally the [GLTFLoader](https://threejs.org/docs/#examples/en/loaders/GLTFLoader) and [DRACOLoader](https://threejs.org/docs/#examples/en/loaders/DRACOLoader) rely on ES6 promises to work. The promise polyfil is included to support these loaders on IE11.
+
 ```
-///
+import * as THREE from "three";
+import TWEEN from "@tweenjs/tween.js";
+import { WEBGL } from "three/examples/jsm/WebGL.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import * as Stats from "stats.js";
+import "promise-polyfill/src/polyfill";
+import { SPE } from "./vendor/SPE.js";
+```
+### Static Assets
+Thanks to the included loaders we are now able to parse nearly any type of static resource and add it to the dependency graph. Below audio, images and a 3D model are parsed via fileLoader so we are able to import the static resource in the same way as any other ES2015 module.
+```
+import fireSfx from "../static/audio/fire_compressed.mp3";
+import modelTexture from "../static/images/grass-texture.jpg";
+import particleTexture from "../static/images/lightning-texture.png";
+import dragonModel from "../static/models/dragon/dracoDragon.gltf";
+```
+Here we import our html and style files. We do this to make webpack aware of these resources (they are added to the dependency graph) so that html-loader can be parse img src tags from our html file. 
+```
+import "../sass/style.scss";
+import "../static/html/index.html";
+```
+now in index.html ... the src attribute of img tags are able to be replaced by html-loader.
+```
+<img src="../images/flame-texture.png" />
+```
+## Loading Screen
+Loaders in Threejs load models asynchronously. This means that the other components of the scene are not blocked by the loading of a model. However, loading a 3D model may take some time and a solution many sites opt for is to display a loading screen until the model is fully loaded. The loading screen code from this boilerplate is from the [Threejs forum](https://discourse.threejs.org/t/basic-loading-screen/2332) and the loading animation is from [this codepen](https://codepen.io/ZyrianovViacheslav/pen/wWVrLQ). There are 3 step when creating a loading screen in Threejs:
+1. Add the loading screen html markup and styles. Display the screen by default covering the entire viewport and scene.
+   ```
+    <div id="loader-wrap">
+      <div class="loader">
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+        <span class="loader-item"></span>
+      </div>
+    </div>
+    ...
+    .loader{
+      z-index:2;
+	    $loader-size: 8;
+	    $animation-duration: 2s;
+	    $animation-speed: 10;
+    ...
+   ```
+2. Set up a [LoadingManager](https://threejs.org/docs/#api/en/loaders/managers/LoadingManager) and give it callbacks for what happens for its onLoad() event. This callback is triggered when the model is fully loaded; indicating its time to remove the loading screen by lowering its opcaity. (fade-out class)
+   ```
+    manager = new THREE.LoadingManager();
+    manager.onLoad = function() {
+    const loadingScreen = document.getElementById("loader-wrap");
+    loadingScreen.classList.add("fade-out");
+    loadingScreen.addEventListener("transitionend", onTransitionEnd);
+    };
+   ```
+3. Pass the created manager instance into the contructor of your loader
+   ```
+   loader = new GLTFLoader(manager);
+   ```
+## TweenJs + Threejs
+It is entirely possible to animate your Threejs scene by incrementing values in the update() function of the render loop.
+```
+function update() {
+  mesh.rotation.z += 0.01;
+  mesh.rotation.x += 0.01;
+  mesh.rotation.y += 0.01;
+}
+```
+This is good for simple animations but for a more robust animation experience Tweenjs is a library that pairs well with Threejs. A tween (from in-between) is a concept that allows you to change the values of the properties of an object in a smooth way. Tweenjs works well with Threejs because many of the Objects in your scene have their properties (Object3D .position, .rotation, .scale etc...) expressed via a Threejs class called [vector3](https://threejs.org/docs/#api/en/math/Vector3). 
+
+Tweens take in 3D vectors by default so we can easily animate the rotation or a similar property.
++ Here a tween is set on the cube's (called mesh) rotation. It is rotated over a course of 8s (duration = 8000) from the position (x:0, y:0, z:0) to (x:Math.PI, y:Math.PI, z:Math.PI) a full rotation. 
++ After starting the tween, be sure to call TWEEN.update(); in update() so the tween is updated on every frame
+```
+cubeRotateTweenA = new TWEEN.Tween(mesh.rotation)
+    .to(rotateCoords, duration)
+    .easing(TWEEN.Easing.Linear.None)
+    .onUpdate(() => {
+    });
+  // Start the tween
+  cubeRotateTweenA.start();
+  cubeRotateTweenA.repeat(Infinity);
+
+  function update(){
+    ...
+      TWEEN.update();
+    ...
+  }
+```
+For the full options see the [tween documentation user's guide](https://github.com/tweenjs/tween.js/blob/master/docs/user_guide.md).
+
+## Loading a Model
+This boilerplate currently only supports the loading of 3D models that can be contained into a single file. For example many .gLTF files can come with upwards of 3 files needed to properly render the model.
++ scene.gltf (JSON file that describes structure and composition of scene)
++ scene.bin (Binary data that contains geometry or animation data)
++ textures (Image files that contain texture data for the model)
+  
+[Read More about GLTF](https://www.khronos.org/files/gltf20-reference-guide.pdf)
+  
+In webpack there really is not an elegant way to associate all 3 files with each other while having each of the files added to webpack's dependency graph. One soultion would be to just statically copy the necessary files using the [CopyWebpackplugin](https://webpack.js.org/plugins/copy-webpack-plugin/) and just reference them as static resources. This works but the assets are not added to the dependency graph which is the main feature for bundling these assets with webpack.
+
+Instead its better to just combine all the necessary files into a single file. For .gltf files they are able to be combined into a single .glb file which includes the textures and binary data for the .gltf model. Similarly compressing a .gltf file with Draco compression results in a single .gltf file that has the binary data and textures embedded into that single file. Because the .gltf format is optimized for the web _you should generally always be using .glb or draco compressed .gltf models_
+
+### Gltf-pipeline compression
+[gltf-pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipeline) is a tool made for changing .gltf files to .glb files (size doesn't change; but model is contained in a single .glb file) and compressing .gltf files to draco compressed .gltf files. The package offers a node.js API but there seems to be [issues](https://github.com/AnalyticalGraphicsInc/cesium/issues/8452) with the latest release that prevent the API from working correctly on newer version of node. 
+
+The CLI-tool works correctly and here is a sample command to convert .gltf -> draco compressed .gltf
++ -i input file: model.gltf
++ -o output file: modelDraco.gltf 
++ -d Runs draco compression
+```
+gltf-pipeline -i model.gltf -o modelDraco.gltf -d
+```
+To get an idea of how well this compression works I have included both the uncompressed scene.gltf and scene.bin and the resultant draco compressed file.
+
+##### Uncompressed dragon
+_Nearly 30MB_
+```
+scene.bin (~30,000kb) + scene.gltf(~20kb) = 30,020kb
+```
+##### Draco Compressed dragon
+_1.3MB!_
+```
+dracoDragon.gltf(~1300kb) = 1300kb
+```
+### Loading a draco compressed .gltf
+In Threejs the draco loader is used for loading pure .drc (draco) files. In order to load a draco compressed .gtlf we need instances of both GLTFLoader and DRACOLoader.
+
+
+
+_You must pass the correct decoding algorithm path to the draco loader in order to correctly display the model._ This decoding files are located at the path location node_modules/three/examples/js/libs/draco. webpack doesn't currently have a way to import a whole directory so the best solution is use CopyWebpackPlugin to copy the draco decoding directory on builds in both dev/prod and link to the path statically.
+```
+   new CopyPlugin([
+      {
+        from: path.resolve(__dirname, "./src/js/vendor/draco"),
+        to: "js/vendor/draco"
+      }
+    ])
 ```
 
-# Learning Resoruces :books:
+
+Once both loaders have been instantiated; pass the draco loader to be used internally by the gltf loader via the .setDRACOLoader() method. Now you may load the model normally.
+```
+  loader = new GLTFLoader(manager);
+  dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath(dracoDecodePath);
+  loader.setDRACOLoader(dracoLoader);
+```
+#### Adding a texture to a loaded 3D model
+In order to apply your own custom textures to your loaded models you first need to create a new instance of TextureLoader() and pass in your image. In order to correctly orient the texture on a .gltf model
+```
+texture = new THREE.TextureLoader().load(modelTexture);
+// these settings are needed to correctly apply a texture to a .gLTF model
+texture.encoding = THREE.sRGBEncoding;
+texture.flipY = false;
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+```
+[Read more](https://stackoverflow.com/questions/54033037/need-help-on-imported-gltf-model-with-changing-texture-of-it')
+
+Once the .gltf is loaded we use Object3D's [Traverse](https://threejs.org/docs/#api/en/core/Object3D.traverse) method that takes a callback and executes it on all of the model's descendants. We specifically look at each descendant and if it is a mesh we change the map and metalness property of [MeshStandardMaterial](https://threejs.org/docs/#api/en/materials/MeshStandardMaterial)
+```
+gltf.scene.traverse(function(child) {
+  if (child instanceof THREE.Mesh) {
+    //child.material is an instance of MeshStandardMaterial
+    child.material.map = texture;
+    child.material.metalness = 1;
+  }
+});
+```
+### [Shader Particle Engine](http://squarefeet.github.io/ShaderParticleEngine/)
+Since Threejs doesn't have a native particle system implementation I included this particle library as good starting point for learning particles. This library is rather dated and a [rewrite](https://github.com/squarefeet/ShaderParticleEngine/issues/50) was in the works at one point... Running the engine will produce console warnings similar to
+```
+THREE.BufferAttribute: .dynamic has been deprecated. Use .usage instead
+```
+but the core functionality of the particle system still works great. This library was intented to be included after Threejs as a script tag so that the THREE namespace would be in the global scope. This works well for the script tags, but **the npm package/build of SPE doesn't work as Three is no longer in the global scope**.
+
+To solve this I just imported three into SPE.js and used ES2015 syntax to export the SPE class. So the module version of this library that works is located in src\js\vendor\SPE.js. This is the only file you need so you may remove the NPM dependency from package.json. 
+
+The library has an excellent API and documentation and the example particle stream in this boilerplate is taken from [this example](https://github.com/squarefeet/ShaderParticleEngine/blob/master/examples/basic.html).
+
+That being said the library is open source and desperately in need a of ES6 rewrite if anyone wants to contribute.
+
+# Learning Resources 
+:books:
 ### __Threejs__
 + [Threejs Resources Page](https://threejs.org/docs/#manual/en/introduction/Useful-links)
++ [Threejs in browser editor](https://threejs.org/editor/): Online app to experiment with Threejs
 + [Stanford 3D Scanning Repository](http://graphics.stanford.edu/data/3Dscanrep/): Free 3D models to experiment with
 + [Threejs loader](https://discoverthreejs.com/apps/loader/): Online app where you can test your glTF, FBX and dae 3D models.
 + [Gltf Viewer](https://gltf.insimo.com/): Online app where you can upload .glTF files and either convert them to .glb files or compress them with draco compression.
@@ -589,12 +795,14 @@ cacheGroups: {
 + [webpack beginner guide article](https://dev.to/pixelgoo/how-to-configure-webpack-from-scratch-for-a-basic-website-46a5): Article I found useful when learning webpack.
 + [More on webpack chunks](https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693): Good guide on webpack < 4 chunking mechanism
 
-# Credits :bookmark_tabs:
+# Credits
+:bookmark_tabs:
 + Favicon Source: [pikpng](https://www.pikpng.com/pngvi/hRxThh_3d-silver-cube-3d-transparent-cube-png-clipart/)
 + Dragon 3D Model Source: [Sketchfab](https://sketchfab.com/3d-models/dragon-f4b218fb3b0d49e9b3a27367850517b8). Originally from the Stanford 3D scanning repository.
 + Fire Audio Source: [freesoundeffects](https://www.freesoundeffects.com/free-track/crackling-fireplace-89305/)
 + Loading Screen Code: [Threejs Forum](https://discourse.threejs.org/t/basic-loading-screen/2332)
 + Wedgie Font: [1001freefonts](https://www.1001freefonts.com/wedgie.font)
-
++ Particle images pack: [opengameart](https://opengameart.org/content/particle-pack-80-sprites)
++ 
 
 If there is something you feel you can explain better, or other fixes to this project feel free to do a PR.
