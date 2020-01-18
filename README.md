@@ -8,11 +8,7 @@
 [![GitHub license](https://img.shields.io/github/license/ethanny2/threejs-es6-webpack-barebones-boilerplate)](https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate/blob/master/LICENSE)
 [![Twitter Badge](https://img.shields.io/badge/chat-twitter-blue.svg)](https://twitter.com/ArrayLikeObj)
 
-<p align="center">
-  <img width="500" height="300" src="https://media.giphy.com/media/STrpJCJfgDw2KuFjkj/giphy.gif">
-  
-</p>
-
+![Default scene](https://i.imgur.com/NuDNzFG.png)
 ## About
 
 **This project was created to provide a good starting point for learners who are new to [webpack](https://webpack.js.org/), JavaScript bundlers, and
@@ -805,6 +801,7 @@ That being said the library is open source and desperately in need a of ES6 rewr
 + [webpack docs](https://webpack.js.org/guides/getting-started/): Great documentation and generally has everything you need to understand webpack.
 + [webpack beginner guide article](https://dev.to/pixelgoo/how-to-configure-webpack-from-scratch-for-a-basic-website-46a5): Article I found useful when learning webpack.
 + [More on webpack chunks](https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693): Good guide on webpack < 4 chunking mechanism
++ [webpack starter kits](https://webpack.js.org/starter-kits/): Collection of user created boilerplates curated by webpack that offer good starting webpack configs for a variety projects.
 
 # Credits
 :bookmark_tabs:
