@@ -1,4 +1,4 @@
-# threejs-webpack4-boilerplate
+# threejs-es6-webpack-barebones-boilerplate
 
 
 <p align="center">
