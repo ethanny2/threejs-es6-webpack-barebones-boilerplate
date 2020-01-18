@@ -14,9 +14,9 @@ import { SPE } from "./vendor/SPE.js";
 /* 
   Importing static assets for use in your .js file
 */
-import FireSfx from "../static/audio/fire_compressed.mp3";
-import jadeTexture from "../static/images/grass-texture.jpg";
-import flameTexture from "../static/images/lightning-texture.png";
+import fireSfx from "../static/audio/fire_compressed.mp3";
+import modelTexture from "../static/images/grass-texture.jpg";
+import particleTexture from "../static/images/lightning-texture.png";
 import dragonModel from "../static/models/dragon/dracoDragon.gltf";
 
 /* 
@@ -102,7 +102,7 @@ function init() {
   scene.add(axesHelper);
 
   // Load in a texture for the dragon model
-  texture = new THREE.TextureLoader().load(jadeTexture);
+  texture = new THREE.TextureLoader().load(modelTexture);
   // these settings are needed to correctly apply a texture to a .gLTF model
   texture.encoding = THREE.sRGBEncoding;
   texture.flipY = false;
@@ -218,7 +218,7 @@ function onWindowResize() {
 function initParticles() {
   particleGroup = new SPE.Group({
     texture: {
-      value: new THREE.TextureLoader().load(flameTexture)
+      value: new THREE.TextureLoader().load(particleTexture)
     },
     blending: THREE.AdditiveBlending,
     fog: true,
@@ -255,7 +255,7 @@ function initParticles() {
   scene.add(particleGroup.mesh);
 }
 function createSound() {
-  let elem = new Audio(FireSfx);
+  let elem = new Audio(fireSfx);
   elem.loop = true;
   return elem;
 }
