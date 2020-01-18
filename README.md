@@ -1,8 +1,16 @@
 # threejs-es6-webpack-barebones-boilerplate
 
 
+[![Build Status](https://travis-ci.com/ethanny2/threejs-es6-webpack-barebones-boilerplate.svg?branch=master)](https://travis-ci.com/ethanny2/threejs-es6-webpack-barebones-boilerplate)
+[![GitHub issues](https://img.shields.io/github/issues/ethanny2/threejs-es6-webpack-barebones-boilerplate)](https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate/issues)
+[![GitHub forks](https://img.shields.io/github/forks/ethanny2/threejs-es6-webpack-barebones-boilerplate)](https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate/network)
+[![GitHub stars](https://img.shields.io/github/stars/ethanny2/threejs-es6-webpack-barebones-boilerplate)](https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate/stargazers)
+[![GitHub license](https://img.shields.io/github/license/ethanny2/threejs-es6-webpack-barebones-boilerplate)](https://github.com/ethanny2/threejs-es6-webpack-barebones-boilerplate/blob/master/LICENSE)
+[![Twitter Badge](https://img.shields.io/badge/chat-twitter-blue.svg)](https://twitter.com/ArrayLikeObj)
+
 <p align="center">
   <img width="500" height="300" src="https://media.giphy.com/media/STrpJCJfgDw2KuFjkj/giphy.gif">
+  
 </p>
 
 ## About
