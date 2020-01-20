@@ -233,7 +233,7 @@ Allow: /
 
 ## webpack.common.js
 
-webpack is a static module bundler for JavaScript applications. It uses configuration files to determine how to bundle your files and build its [dependency graph](https://webpack.js.org/concepts/dependency-graph/). As per the webpack documentation, it is best to have different files for both development and production environment as the needs/goals of these builds greatly differ. Of course, in order to keep the config files as DRY as possible the files are separated into their respective environments and the settings shared between the two environments is placed in this common file. Later the settings from this file will be combined separately with both the dev and production config files through the use of [webpack-merge](https://github.com/survivejs/webpack-merge).
+webpack is a static module bundler for JavaScript applications. It uses configuration files to determine how to bundle your files and build its [dependency graph](https://webpack.js.org/concepts/dependency-graph/). As per the webpack documentation, it is best to have different files for both development and production environment as the needs/goals of these builds greatly differ. Of course, in order to keep the config files as DRY as possible the files are separated into their respective environments and the settings shared between the two environments are placed in this common file. Later the settings from this file will be combined separately with both the dev and production config files through the use of [webpack-merge](https://github.com/survivejs/webpack-merge).
 
 ### __Entry/Output__
 
@@ -331,7 +331,7 @@ This rule is used to process CSS/SASS styles. The regex matches all SASS, SCSS a
       }
 ```
 ### __Plugins__
-Another feature of webpack that enables you to add new features to your build process.
+Another feature of webpack that enables you to add helpful tooling to your build process.
 
 
 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) is a plugin used to generate html files either through your templating engine of choice or from an html file you supply. This plugin also automatically places your bundled .js output file, and CSS output file in the html file automatically. _This plugin alone will NOT allow you to include images in your html file (img src=... ) that are detected by the webpack build process._ This is accomplished through a combination of html-loader and file-loader.
@@ -382,7 +382,9 @@ To avoid the issue of duplicate code and dependencies webpack has a feature that
 
 *Side Note: In webpack < 4 there are already intelligent defaults in place for creating chunks that fit web performance best practices. [Learn more](https://webpack.js.org/plugins/split-chunks-plugin/)
 #### Caching
-Once your site has been deployed to a server a common technique is to add a hash within the file name (e.g script.7e2c49a622975ebd9b7e.js) and then change the hash value _ONLY IF_ the contents of the file changed. This ensures the visitor will only download files that change from build to build and have the rest served from their cache for better performance. This is a process known as _cache-busting_ and is very easy to configure and use in webpack 4. In combination with code splitting this is a very powerful tool to keep your live site fast for returning visitors. [Read more](https://webpack.js.org/guides/caching/)
+If a new build produces a new file name that differs from the version in the user's cache it will trigger a redownload of that content. Once your site has been deployed to a server a common technique is to add a hash within the file name (e.g script.7e2c49a622975ebd9b7e.js) and then change the hash value _ONLY IF_ the contents of the file changed. 
+
+This ensures the visitor will only download files that change from build to build and have the rest served from their cache for better performance. Using unique hashes to explicitly force the user to redownload certain files is called _cache-busting_ and is very easy to configure and use in webpack 4. In combination with code splitting this is a very powerful tool to keep your live site fast for returning visitors. [Read more](https://webpack.js.org/guides/caching/)
 
 
 #### Output substitutions
@@ -555,7 +557,7 @@ new OptimizeCSSAssetsPlugin({})
 ### __Optimizations__ 
 In the production environment is really where chunking optimizations matter. A common tactic (and the one used in the development environment) is to create a custom chunk for all node_modules code. This is a good first step to reducing the end-users bundle size as they will only redownload those node_modules dependencies if any of the code within them changes. However, with this configuration the user has to download the _whole vendor chunk if any of the files in node_modules changes_. This could incur redownloading of data that is identical to the one in the end user's cache. 
 
-To fix this we take it a step further we create a chunk for each individual NPM package within the node_modules/ folder so that if any dependency is altered it ensures the return visitor of the site only downloads the NPM packages that changed.
+To fix this we take it a step further we create a chunk for each individual NPM package within the node_modules/ folder so that if any dependency is altered it ensures the return visitor of the site only download the NPM packages that changed.
 
 This results in a js file for each NPM package included in the dependencies of your project. In the past where most websites were served via HTTP/1 more requests meant an overall slower site and a longer load time. Today most site serve requests via [HTTP/2](https://kinsta.com/learn/what-is-http2/) which allows parallel multiplexed requests and is generally fast regardless of the number of requests.
  [Source](https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758)
@@ -589,7 +591,7 @@ There are already a number of good resources detailing how to setup a basic thre
 ## Imports
 At the top of the file is where you import all dependencies and vendor code you need in your program. webpack is able to recognize a wide variety of different module formats (AMD, CommonJS etc...) but for source files I choose ES2015 module syntax.
 ### Library/Vendor Code 
-_Note: Since the three.js npm package is based on the module version many features must be explicitly exported to be used as they are not included in the main module file._ These are features are found in the node_modules/three/examples/... path. Many tutorials online are written using the non-module version of three.js where loaders where included under the THREE namespace (e.g THREE.GLTFLoader(...)), so if there is an error always check if you imported the specific component first.
+_Note: Since the three.js npm package is based on the module version many features must be explicitly exported to be used as they are not included in the main module file._ These are features are found in the node_modules/three/examples/... path. Many tutorials online are written using the non-module version of three.js where loaders are included under the THREE namespace (e.g THREE.GLTFLoader(...)), so if there is an error always check if you imported the specific component first.
 [Read more](https://threejs.org/docs/#manual/en/introduction/Import-via-modules)
 
 Internally the [GLTFLoader](https://threejs.org/docs/#examples/en/loaders/GLTFLoader) and [DRACOLoader](https://threejs.org/docs/#examples/en/loaders/DRACOLoader) rely on ES6 promises to work. The promise polyfill is included to support these loaders on IE11.
@@ -606,7 +608,7 @@ import "promise-polyfill/src/polyfill";
 import { SPE } from "./vendor/SPE.js";
 ```
 ### Static Assets
-Thanks to the included loaders we are now able to parse nearly any type of static resource and add it to the dependency graph. Below audio, images and a 3D model are parsed via fileLoader so we are able to import the static resource in the same way as any other ES2015 module.
+Thanks to the included loaders we are now able to parse nearly any type of static resource and add it to the dependency graph. Below audio, images and a 3D model are parsed via fileLoader so we are able to import static resources in the same way as any other ES2015 module.
 ```
 import fireSfx from "../static/audio/fire_compressed.mp3";
 import modelTexture from "../static/images/grass-texture.jpg";
@@ -624,7 +626,7 @@ now in index.html ... the src attribute of img tags are able to be replaced by h
 ```
 ## Loading Screen
 Loaders in three.js load models asynchronously. This means that the other components of the scene are not blocked by the loading of a model. However, loading a 3D model may take some time and a solution many sites opt for is to display a loading screen until the model is fully loaded. The loading screen code from this boilerplate is from the [three.jsforum](https://discourse.threejs.org/t/basic-loading-screen/2332) and the loading animation is from [this codepen](https://codepen.io/ZyrianovViacheslav/pen/wWVrLQ). There are 3 step when creating a loading screen in three.js:
-1. Add the loading screen html markup and styles. Display the screen by default covering the entire viewport and scene.
+1. Add the loading screen html markup and styles. On initial load have the load screen cover the entire viewport.
    ```
     <div id="loader-wrap">
       <div class="loader">
@@ -702,10 +704,10 @@ This boilerplate currently only supports the loading of 3D models that can be co
   
 In webpack there really is not an elegant way to associate all 3 files with each other while having each of the files added to webpack's dependency graph. One solution would be to just statically copy the necessary files using the [CopyWebpackplugin](https://webpack.js.org/plugins/copy-webpack-plugin/) and just reference them as static resources. This works but the assets are not added to the dependency graph which is the main feature for bundling these assets with webpack.
 
-Instead its better to just combine all the necessary files into a single file. For .gltf files they are able to be combined into a single .glb file which includes the textures and binary data for the .gltf model. Similarly compressing a .gltf file with Draco compression results in a single .gltf file that has the binary data and textures embedded into that single file. Because the .gltf format is optimized for the web _you should generally always be using .glb or draco compressed .gltf models_
+Instead its better to just combine all the necessary files into a single file (if possible for your 3D model format). For .gltf files they are able to be combined into a single .glb file which includes the textures and binary data for the .gltf model. Similarly compressing a .gltf file with Draco compression results in a single .gltf file that has the binary data and textures embedded into that single file. Because the .gltf format is optimized for the web _you should generally always be using .glb or draco compressed .gltf models_
 
 ### Gltf-pipeline compression
-[gltf-pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipeline) is a tool made for changing .gltf files to .glb files (size doesn't change; but model is contained in a single .glb file) and compressing .gltf files to draco compressed .gltf files. The package offers a node.js API but there seems to be [issues](https://github.com/AnalyticalGraphicsInc/cesium/issues/8452) with the latest release that prevent the API from working correctly on newer version of node. 
+[gltf-pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipeline) is a tool made for changing .gltf files to .glb files (size doesn't change; but model is contained in a single .glb file) and compressing .gltf files to draco compressed .gltf files. The package offers a node.js API but there seems to be [issues](https://github.com/AnalyticalGraphicsInc/cesium/issues/8452) with the latest release that prevent the API from working correctly on newer versions of node. 
 
 The CLI-tool works correctly and here is a sample command to convert .gltf -> draco compressed .gltf
 + -i input file: model.gltf
@@ -811,6 +813,6 @@ That being said the library is open source and desperately in need a of ES6 rewr
 + Loading Screen Code: [Threejs Forum](https://discourse.threejs.org/t/basic-loading-screen/2332)
 + Wedgie Font: [1001freefonts](https://www.1001freefonts.com/wedgie.font)
 + Particle images pack: [opengameart](https://opengameart.org/content/particle-pack-80-sprites)
-+ 
+  
 
 If there is something you feel you can explain better, or other fixes to this project feel free to do a PR.
