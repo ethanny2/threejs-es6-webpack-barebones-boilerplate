@@ -9,7 +9,7 @@ import "promise-polyfill/src/polyfill";
 /* 
   Do not use/import the SPE node_module as it doesn't properly work without three in the global scope
 */
-import { SPE } from "./vendor/SPE.js";
+import SPE from "shader-particle-engine";
 
 /* 
   Importing static assets for use in your .js file

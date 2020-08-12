@@ -26,6 +26,14 @@ module.exports = {
   },
   module: {
     rules: [
+      // Shim SPE-Package
+      {
+        test: require.resolve("shader-particle-engine"),
+        use: [
+            'imports-loader?imports[]=namespace|three|THREE',
+            'exports-loader?exports=default|SPE'
+        ]
+      },
       // Targets all .js files
       {
         test: /\.m?js$/i,
