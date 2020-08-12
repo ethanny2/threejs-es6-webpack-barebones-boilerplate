@@ -45,6 +45,7 @@
     "image-webpack-loader": "^6.0.0",
     "imagemin-mozjpeg": "^8.0.0",
     "imagemin-webpack-plugin": "^2.4.2",
+    "imports-loader": "^1.1.0",
     "mini-css-extract-plugin": "^0.8.2",
     "node-sass": "^4.13.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
