@@ -1,6 +1,4 @@
 /*eslint-disable */
-import * as THREE from "three";
-
 
 /* shader-particle-engine 1.0.6
  *
