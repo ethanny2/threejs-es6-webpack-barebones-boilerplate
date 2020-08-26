@@ -14,8 +14,8 @@ module.exports = {
     colors: true,
     env: true
   },
-  performance: { 
-    hints: false 
+  performance: {
+    hints: false
   },
   entry: {
     main: entry
@@ -103,12 +103,11 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: "defer"
     }),
-    new CopyPlugin([
-      {
-        from: path.resolve(__dirname, "./src/js/vendor/draco"),
-        to: "js/vendor/draco"
-      }
-    ])
+    new CopyPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, "./src/js/vendor/draco"), to: "js/vendor/draco" }
+      ]
+    })
   ],
   optimization: {
     runtimeChunk: "single",
